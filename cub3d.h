@@ -7,6 +7,12 @@
 #define WIDTH 600
 #define PI 3.141592653589793
 
+#define RECTCOLOR 0x7BB30C
+#define FLOOR 0x1859B3
+#define WALL 0x2DB362
+#define RAY 0xB3160C
+#define GRID 0x9029B3
+
 /*Key kode define*/
 
 

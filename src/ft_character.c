@@ -10,7 +10,7 @@ t_rect	*ft_rect_init()
 	rect->xpos = 50;
 	rect->ypos = 60;
 	rect->ray_len = 50;
-	rect->color = 0xFD15DF;
+	rect->color = RECTCOLOR;
 	return(rect);
 }
 

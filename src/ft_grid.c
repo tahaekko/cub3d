@@ -9,7 +9,7 @@ void	ft_draw_square(t_data *data, int xpos, int ypos, int color, int size)
 		for(int j = 0; j < size; j++)
 		{
 			if ((j + 1) == size || (i + 1) == size)
-				color = 0;
+				color = GRID;
 			ft_put_pix(i + xpos, j+ypos, color, data);
 			color = tmp_col;
 		}

@@ -24,7 +24,7 @@ void	ft_rot(t_data *data)
 	int i = 0;
 	while (i < rect->ray_len)
 	{
-		ft_put_pix(rect->xpos + (i * rect->rotx), rect->ypos + (i * rect->roty), 0x00FF00, data);
+		ft_put_pix(rect->xpos + (i * rect->rotx), rect->ypos + (i * rect->roty), RAY, data);
 		i++;
 	}
 }
@@ -80,14 +80,14 @@ void	ft_map(t_data *data)
 
 	xmap = 8;
 	ymap = 8;
-	off_map = WIDTH/8;
+	off_map = 64;
 	int map[] =	{1,1,1,1,1,1,1,1,
 				 1,0,0,0,0,0,0,1,
 				 1,0,0,0,0,0,0,1,
 				 1,0,0,0,0,0,0,1,
 				 1,0,0,0,0,0,0,1,
-				 1,0,0,0,0,0,0,1,
-				 1,0,0,0,0,0,0,1,
+				 1,0,0,1,0,0,0,1,
+				 1,0,0,1,0,0,0,1,
 				 1,1,1,1,1,1,1,1};
 	int color, i, j;
 	color = 0;
@@ -101,9 +101,9 @@ void	ft_map(t_data *data)
 		{
 			// printf("%d, ", map[(j * ymap) + i]);
 			if (map[(j * ymap) + i] == 1)
-				color = 0xFF0000;
+				color = WALL;
 			else
-				color = 0x0000FF;
+				color = FLOOR;
 			ft_draw_square(data, i *  off_map , j *  off_map, color, off_map);
 			j++;
 		}
