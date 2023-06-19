@@ -33,19 +33,19 @@ void	ft_motion(t_data *data)
 
 void	ft_move(t_data *data, int key)
 {
-	if (key == 115)
+	if (key == KEY_S)
 		data->rect->ypos++;
-	if (key == 119)
+	if (key == KEY_W)
 		data->rect->ypos--;
-	if (key == 100)
+	if (key == KEY_D)
 		data->rect->xpos++;
-	if (key == 97)
+	if (key == KEY_A)
 		data->rect->xpos--;
-	if (key == 65363)
+	if (key == KEY_RG)
 		data->rect->deg++;
-	if (key == 65361)
+	if (key == KEY_LE)
 		data->rect->deg--;
-	if (key == 65307)
+	if (key == ESC)
 		exit(0);
 	ft_rot(data->rect);
 	printf("%d\n", data->rect->deg);

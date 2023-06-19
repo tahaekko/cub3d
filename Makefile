@@ -2,7 +2,20 @@
 NAME = Cub3D
 CC = cc
 
-MLX_DIR = minilibx-linux
+
+
+
+
+ifeq ($(shell uname), Linux)
+	MLX_FLAGS = -lmlx -lm -lbsd -lX11 -lXext
+	MLX_DIR = -L minilibx-linux
+	MLX_INC = -I $(MLX_DIR)
+else
+	MLX_FLAGS = -lmlx -framework OpenGL -framework AppKit
+	MLX_DIR =
+	MLX_INC = -I /usr/local/include
+endif
+
 
 SRC_DIR = src/
 SRC = ft_character.c  ft_init.c  libx_tools.c  main.c	ft_grid.c
@@ -15,11 +28,11 @@ FOBJ = $(addprefix $(OBJ_DIR), $(OBJ))
 all : $(NAME)
 
 $(NAME): $(FOBJ)
-	${CC} -o $(NAME) $(FOBJ) -L $(MLX_DIR) -lmlx -lm -lbsd -lX11 -lXext
+	${CC} -o $(NAME) $(FOBJ) $(MLX_FLAGS) $(MLX_DIR)
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 	mkdir -p $(OBJ_DIR)
-	$(CC) -c $< -o $@ -I $(MLX_DIR) -I .
+	$(CC) -c $< -o $@ $(MLX_INC) -I .
 
 clean :
 	rm -rf $(OBJ_DIR)
