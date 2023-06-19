@@ -9,17 +9,24 @@ void	ft_draw_hypo(t_data *data)
 		// ft_put_pix(rect->rotx, rect->roty, 0x00FF00, data);
 }
 
-void	ft_rot(t_rect *rect)
+void	ft_rot(t_data *data)
 {
-	int	hypo = 100;
-	int	x;
-	int	y;
-	if (rect->deg > 360)
-		rect->deg = 0;
+	t_rect *rect;
+
+	rect = data->rect;
+	if (rect->deg > 2 * PI)
+		rect->deg -= 2 * PI;
 	if (rect->deg < 0)
-		rect->deg = 360;
-	rect->rotx = cos(rect->deg) * hypo;
-	rect->roty = sin(rect->deg) * hypo;
+		rect->deg += 2 * PI;
+	rect->rotx = cos(rect->deg);
+	rect->roty = sin(rect->deg);
+
+	int i = 0;
+	while (i < rect->ray_len)
+	{
+		ft_put_pix(rect->xpos + (i * rect->rotx), rect->ypos + (i * rect->roty), 0x00FF00, data);
+		i++;
+	}
 }
 
 void	ft_motion(t_data *data)
@@ -27,28 +34,36 @@ void	ft_motion(t_data *data)
 	mlx_clear_window(data->mlx, data->win);
 	ft_map(data);
 	ft_draw_character(data);
-	// ft_draw_hypo(data);
+	ft_rot(data);
 	ft_put_img(data);
 }
 
 void	ft_move(t_data *data, int key)
 {
-	if (key == KEY_S)
-		data->rect->ypos++;
-	if (key == KEY_W)
-		data->rect->ypos--;
-	if (key == KEY_D)
-		data->rect->xpos++;
-	if (key == KEY_A)
-		data->rect->xpos--;
+	if (key == KEY_UP)
+		data->rect->ray_len +=5;
+	if (key == KEY_DN)
+		data->rect->ray_len -= 5;
 	if (key == KEY_RG)
-		data->rect->deg++;
+		data->rect->deg+= 0.1;
 	if (key == KEY_LE)
-		data->rect->deg--;
+		data->rect->deg-=0.1;
+	if (key == KEY_S)
+	{
+		data->rect->xpos-= data->rect->rotx;
+		data->rect->ypos -= data->rect->roty;
+	}
+	if (key == KEY_W)
+	{
+		data->rect->xpos+= data->rect->rotx;
+		data->rect->ypos+= data->rect->roty;
+	}
+	if (key == KEY_D)
+		data->rect->xpos += data->rect->rotx;
+	if (key == KEY_A)
+		data->rect->xpos -= data->rect->rotx;;
 	if (key == ESC)
 		exit(0);
-	ft_rot(data->rect);
-	printf("%d\n", data->rect->deg);
 	ft_motion(data);
 }
 

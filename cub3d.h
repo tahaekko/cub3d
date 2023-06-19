@@ -5,34 +5,40 @@
 
 #define HEIGHT 600
 #define WIDTH 600
+#define PI 3.141592653589793
 
 /*Key kode define*/
-#define KEY_UP 126
-#define KEY_DN 125
-#define KEY_RG 124
-#define KEY_LE 123
-#define KEY_W 13
-#define KEY_S 1
-#define KEY_D 2
-#define KEY_A 0
-#define ESC 53
+
 
 #ifdef __linux__
-	#define KEY_UP 115
-	#define KEY_DN 119
-	#define KEY_RG 100
-	#define KEY_LE 6536
-	#define KEY_W 65361
-	#define KEY_S 65307
-	#define KEY_D
-	#define KEY_A
+	#define KEY_UP 65362
+	#define KEY_DN 65364
+	#define KEY_RG 65363
+	#define KEY_LE 65361
+	#define KEY_W 119
+	#define KEY_S 115
+	#define KEY_D 100
+	#define KEY_A 97
+	#define ESC 65307
+#else
+	#define KEY_UP 126
+	#define KEY_DN 125
+	#define KEY_RG 124
+	#define KEY_LE 123
+	#define KEY_W 13
+	#define KEY_S 1
+	#define KEY_D 2
+	#define KEY_A 0
+	#define ESC 53
+
 #endif
 typedef struct s_rect{
-	int	xpos;
-	int	ypos;
-	int	deg;
-	int	rotx;
-	int	roty;
+	double	xpos;
+	double	ypos;
+	double	deg;
+	double	rotx;
+	double	roty;
+	double	ray_len;
 	int	height;
 	int	width;
 	int	color;
