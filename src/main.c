@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:20 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/21 17:25:21 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/21 22:56:06 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ft_draw_hypo(t_data *data)
 void	ft_rot(t_data *data)
 {
 	t_rect *rect;
+	int i = 0;
 
 	rect = data->rect;
 	if (rect->deg > 2 * PI)
@@ -32,8 +33,6 @@ void	ft_rot(t_data *data)
 		rect->deg += 2 * PI;
 	rect->rotx = cos(rect->deg);
 	rect->roty = sin(rect->deg);
-
-	int i = 0;
 	while (i < rect->ray_len)
 	{
 		ft_put_pix(rect->xpos + (i * rect->rotx), rect->ypos + (i * rect->roty), RAY, data);
@@ -50,8 +49,8 @@ void	ft_motion(t_data *data)
 
 	/**/
 	t_vertex a, b;
-	a.x = 300; a.y = 300;
-	b.x = 420; b.y = 400;
+	a.x = 100; a.y = 100;
+	b.x = 500; b.y = 500;
 
 	ft_vect_draw(&a, &b, data);
 

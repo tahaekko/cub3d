@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:24:45 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/21 17:24:46 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/21 20:16:16 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ void	ft_draw_square(t_data *data, int xpos, int ypos, int color, int size);
 void	ft_background(t_data *data);
 
 /**/
-double	ft_hypo_calc(t_vertex *a, t_vertex *b);
+double	*ft_hypo_calc(t_vertex *a, t_vertex *b);
 void	ft_vect_draw(t_vertex *a, t_vertex *b, t_data *data);
 

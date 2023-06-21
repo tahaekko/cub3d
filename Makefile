@@ -6,7 +6,7 @@
 #    By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/21 17:25:24 by msamhaou          #+#    #+#              #
-#    Updated: 2023/06/21 17:34:10 by msamhaou         ###   ########.fr        #
+#    Updated: 2023/06/21 22:02:18 by msamhaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,6 +72,8 @@ $(OBJ_DIR)%.o : $(SRC_DIR)%.c
 $(OBJ_DIR)%.o : $(GNL_DIR)%.c
 	$(CC) -c $< -o $@ $(MLX_INC) -Iinclude/
 
+prog : all
+	./$(NAME)
 clean :
 	rm -rf $(OBJ_DIR)
 fclean : clean
