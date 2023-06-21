@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/21 17:25:20 by msamhaou          #+#    #+#             */
+/*   Updated: 2023/06/21 17:25:21 by msamhaou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 void	ft_draw_hypo(t_data *data)
@@ -35,6 +47,17 @@ void	ft_motion(t_data *data)
 	ft_map(data);
 	ft_draw_character(data);
 	ft_rot(data);
+
+	/**/
+	t_vertex a, b;
+	a.x = 300; a.y = 300;
+	b.x = 420; b.y = 400;
+
+	ft_vect_draw(&a, &b, data);
+
+	ft_put_pix(a.x, a.y, 0x0000FF, data);
+	ft_put_pix(b.x, b.y, 0x0000FF, data);
+
 	ft_put_img(data);
 }
 
@@ -64,12 +87,16 @@ void	ft_move(t_data *data, int key)
 		data->rect->xpos -= data->rect->rotx;;
 	if (key == ESC)
 		exit(0);
+	printf("X %f\n", data->rect->xpos);
+	printf("C: %f , F : %f", ceil(data->rect->xpos / 64) * 64, floor(data->rect->xpos / 64));
+
+
+	printf("Y %f\n", data->rect->ypos/ 64);
 	ft_motion(data);
 }
 
 int	ft_key(int key, t_data *data)
 {
-	printf("%d\n", key);
 	ft_move(data, key);
 	return (0);
 }

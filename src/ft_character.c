@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_character.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/21 17:25:04 by msamhaou          #+#    #+#             */
+/*   Updated: 2023/06/21 17:25:05 by msamhaou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d.h"
 
 t_rect	*ft_rect_init()
@@ -9,7 +21,7 @@ t_rect	*ft_rect_init()
 	rect->width = 5;
 	rect->xpos = 50;
 	rect->ypos = 60;
-	rect->ray_len = 50;
+	rect->ray_len = 200;
 	rect->color = RECTCOLOR;
 	return(rect);
 }

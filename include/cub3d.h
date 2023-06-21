@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/21 17:24:45 by msamhaou          #+#    #+#             */
+/*   Updated: 2023/06/21 17:24:46 by msamhaou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <mlx.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,6 +50,12 @@
 	#define ESC 53
 
 #endif
+
+typedef struct s_test
+{
+	double	btw;
+	double	hypo;
+}	t_test;
 
 typedef struct s_vertex
 {
@@ -81,5 +99,8 @@ void	ft_draw_character(t_data *data);
 void	ft_map(t_data *data);
 void	ft_draw_square(t_data *data, int xpos, int ypos, int color, int size);
 void	ft_background(t_data *data);
+
+/**/
 double	ft_hypo_calc(t_vertex *a, t_vertex *b);
 void	ft_vect_draw(t_vertex *a, t_vertex *b, t_data *data);
+
