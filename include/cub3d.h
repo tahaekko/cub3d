@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:24:45 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/21 20:16:16 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/22 16:56:37 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <libft.h>
 
 #define HEIGHT 600
 #define WIDTH 600
