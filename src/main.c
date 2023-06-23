@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:20 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/21 22:56:06 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/22 18:30:30 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,14 @@ void	ft_rot(t_data *data)
 	}
 }
 
+void	ft_sigle_vect(double x, double y, t_data *data)
+{
+	t_vertex a, b;
+	b.x = data->rect->xpos; b.y = data->rect->ypos;
+	a.x = x; a.y = y;
+	ft_vect_draw(&a, &b, data);
+}
+
 void	ft_motion(t_data *data)
 {
 	mlx_clear_window(data->mlx, data->win);
@@ -48,16 +56,17 @@ void	ft_motion(t_data *data)
 	ft_rot(data);
 
 	/**/
-	t_vertex a, b;
-	a.x = 100; a.y = 100;
-	b.x = 500; b.y = 500;
 
-	ft_vect_draw(&a, &b, data);
-
-	ft_put_pix(a.x, a.y, 0x0000FF, data);
-	ft_put_pix(b.x, b.y, 0x0000FF, data);
-
+	ft_sigle_vect(ceil(data->rect->xpos/64) * 64, data->rect->ypos,data);
+	ft_sigle_vect(data->rect->xpos, data->rect->ypos +sin(data->rect->deg) * 50,data);
+	ft_sigle_vect(data->rect->xpos + cos(data->rect->deg) * 50 , data->rect->ypos+ sin(data->rect->deg) * 50,data);
 	ft_put_img(data);
+	int i =0;
+	while (i < 8)
+	{
+		mlx_string_put(data->mlx, data->win, 64 * 8, 64 * i, 0x00FF00 ,ft_itoa(i * 64));
+		i++;
+	}
 }
 
 void	ft_move(t_data *data, int key)
@@ -86,11 +95,7 @@ void	ft_move(t_data *data, int key)
 		data->rect->xpos -= data->rect->rotx;;
 	if (key == ESC)
 		exit(0);
-	printf("X %f\n", data->rect->xpos);
-	printf("C: %f , F : %f", ceil(data->rect->xpos / 64) * 64, floor(data->rect->xpos / 64));
 
-
-	printf("Y %f\n", data->rect->ypos/ 64);
 	ft_motion(data);
 }
 

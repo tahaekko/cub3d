@@ -6,7 +6,7 @@
 #    By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/21 17:25:24 by msamhaou          #+#    #+#              #
-#    Updated: 2023/06/21 22:02:18 by msamhaou         ###   ########.fr        #
+#    Updated: 2023/06/22 16:59:18 by msamhaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,12 +36,12 @@ GNL_DIR = gnl/
 GNL_OBJ_FILE = $(GNL_SRC:.c=.o)
 GNL_OBJ = $(addprefix $(OBJ_DIR), $(GNL_OBJ_FILE))
 #****************LIBFT****************
-LIBFT_SRC =	ft_atoi.c         ft_islpha.c       ft_lstdelone.c    ft_memcmp.c       ft_putnbr_fd.c    ft_strjoin.c      ft_strnstr.c\
-			ft_bzero.c        ft_isprint.c      ft_lstiter.c      ft_memcpy.c       ft_putstr_fd.c    ft_strlcat.c      ft_strrchr.c\
-			ft_calloc.c       ft_itoa.c         ft_lstlast.c      ft_memmove.c      ft_split.c        ft_strlcpy.c      ft_strtrim.c\
-			ft_isalnum.c      ft_lstadd_back.c  ft_lstnew.c       ft_memset.c       ft_strchr.c       ft_strlen.c       ft_substr.c\
-			ft_isascii.c      ft_lstadd_front.c ft_lstsize.c      ft_putchar_fd.c   ft_strdup.c       ft_strmapi.c      ft_tolower.c\
-			ft_isdigit.c      ft_lstclear.c     ft_memchr.c       ft_putendl_fd.c   ft_striteri.c     ft_strncmp.c      ft_toupper.c
+LIBFT_SRC =	ft_atoi.c         ft_islpha.c       ft_putnbr_fd.c     ft_strnstr.c\
+			ft_bzero.c        ft_isprint.c      ft_putstr_fd.c    ft_strlcat.c      ft_strrchr.c\
+			ft_calloc.c       ft_itoa.c         ft_lstlast.c      ft_split.c        ft_strlcpy.c      ft_strtrim.c\
+			ft_isalnum.c      ft_lstadd_back.c  ft_strchr.c       ft_strlen.c       ft_substr.c\
+			ft_isascii.c      ft_lstadd_front.c ft_putchar_fd.c   ft_strdup.c       ft_strmapi.c      ft_tolower.c\
+			ft_isdigit.c      ft_lstclear.c     ft_putendl_fd.c   ft_striteri.c     ft_strncmp.c      ft_toupper.c
 LIBFT_DIR =	libft/
 LIBFT_OBJ_FILE = $(LIBFT_SRC:.c=.o)
 LIBFT_OBJ = $(addprefix $(OBJ_DIR), $(LIBFT_OBJ_FILE))
@@ -57,8 +57,8 @@ FOBJ = $(addprefix $(OBJ_DIR), $(OBJ))
 
 all : $(NAME)
 
-$(NAME): $(OBJ_DIR) $(FOBJ) $(GNL_OBJ)
-	${CC} -o $(NAME) $(FOBJ) $(MLX_FLAGS) $(MLX_LINK)
+$(NAME): $(OBJ_DIR) $(FOBJ) $(LIBFT_OBJ) $(GNL_OBJ)
+	${CC} -o $(NAME) $(FOBJ) $(LIBFT_OBJ) $(MLX_FLAGS) $(MLX_LINK)
 
 $(OBJ_DIR) :
 	mkdir -p $(OBJ_DIR)
