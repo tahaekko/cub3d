@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:20 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/23 19:43:48 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/23 21:24:12 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ void	ft_rot(t_data *data)
 	}
 }
 
-void	ft_sigle_vect(double x, double y, t_data *data)
+void	ft_sigle_vect(double x, double y, int color,t_data *data)
 {
 	t_vertex a, b;
 	b.x = data->rect->xpos; b.y = data->rect->ypos;
 	a.x = x; a.y = y;
-	ft_vect_draw(&a, &b, data);
+	ft_vect_draw(&a, &b, color,data);
 }
 
 void	ft_coordinante(t_data *data)
@@ -64,12 +64,13 @@ void	ft_coordinante(t_data *data)
 	}
 }
 
-void	ft_vector_checker_test(t_data *data)
+void	ft_vector_horizontal_test(t_data *data)
 {
 	static int i;
 	double	hypo = 0;
 	double	near_x = 0;
 	double yy;
+	int	color = 0x00FF00;
 
 	near_x = ceil(data->rect->xpos/64) * 64;
 	if ((data->rect->deg >  PI/2 && data->rect->deg < PI + PI/2) )
@@ -79,9 +80,31 @@ void	ft_vector_checker_test(t_data *data)
 	if (yy < 0 || yy > HEIGHT)
 		hypo = 600;
 	yy = data->rect->ypos + sin(data->rect->deg) * hypo;
-	ft_sigle_vect(near_x, data->rect->ypos,data);
-	ft_sigle_vect(data->rect->xpos, yy,data);
-	ft_sigle_vect(data->rect->xpos + cos(data->rect->deg) * hypo , yy,data);
+	ft_sigle_vect(near_x, data->rect->ypos, color,data);
+	ft_sigle_vect(data->rect->xpos, yy, color,data);
+	ft_sigle_vect(data->rect->xpos + cos(data->rect->deg) * hypo , yy, color,data);
+}
+
+void	ft_vector_vertical_test(t_data *data)
+{
+	static int i;
+	double	hypo = 0;
+	double	near_y = 0;
+	double xx;
+	int	color = 0x0000FF;
+
+	near_y = ceil(data->rect->ypos/64) * 64;
+	if (data->rect->deg > PI)
+		near_y = floor(data->rect->ypos/64) * 64;
+	hypo = (near_y - data->rect->ypos) / sin (data->rect->deg);
+	xx = data->rect->xpos + cos(data->rect->deg) * hypo;
+	printf("%f\n", xx);
+	if (xx < 0 || xx > HEIGHT)
+		hypo = 600;
+	xx = data->rect->xpos + cos(data->rect->deg) * hypo;
+	ft_sigle_vect(data->rect->xpos, near_y, color,data);
+	ft_sigle_vect(xx, data->rect->ypos, color,data);
+	ft_sigle_vect(xx , data->rect->ypos + sin(data->rect->deg) * hypo, color,data);
 }
 
 void	ft_motion(t_data *data)
@@ -92,7 +115,8 @@ void	ft_motion(t_data *data)
 	ft_rot(data);
 
 	/**/
-	ft_vector_checker_test(data);
+	ft_vector_horizontal_test(data);
+	ft_vector_vertical_test(data);
 	ft_put_img(data);
 
 	ft_coordinante(data);
@@ -100,6 +124,9 @@ void	ft_motion(t_data *data)
 
 void	ft_move(t_data *data, int key)
 {
+	double speed;
+
+	speed = 5;
 	if (key == KEY_UP)
 		data->rect->ray_len +=5;
 	if (key == KEY_DN)
@@ -110,13 +137,13 @@ void	ft_move(t_data *data, int key)
 		data->rect->deg-=0.1;
 	if (key == KEY_S)
 	{
-		data->rect->xpos-= data->rect->rotx;
-		data->rect->ypos -= data->rect->roty;
+		data->rect->xpos-= data->rect->rotx * speed;
+		data->rect->ypos -= data->rect->roty * speed;
 	}
 	if (key == KEY_W)
 	{
-		data->rect->xpos+= data->rect->rotx;
-		data->rect->ypos+= data->rect->roty;
+		data->rect->xpos+= data->rect->rotx * speed;
+		data->rect->ypos+= data->rect->roty * speed;
 	}
 	if (key == KEY_D)
 		data->rect->xpos += data->rect->rotx;

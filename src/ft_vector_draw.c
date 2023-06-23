@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:24:33 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/23 19:07:04 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/23 21:01:15 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_swap_vect(t_vertex **a, t_vertex **b)
 	*b = *tmp;
 }
 
-void	ft_vect_draw(t_vertex *a, t_vertex *b, t_data *data)
+void	ft_vect_draw(t_vertex *a, t_vertex *b, int color, t_data *data)
 {
 	double	i;
 	double	*hypo;
@@ -51,7 +51,7 @@ void	ft_vect_draw(t_vertex *a, t_vertex *b, t_data *data)
 	y = 0;
 	while (i < hypo[0])
 	{
-		ft_put_pix((int)a->x + x, (int)a->y - y, 0x00FF00, data);
+		ft_put_pix((int)a->x + x, (int)a->y - y, color, data);
 		if (b->x < a->x)
 			x -= cos(hypo[1]);
 		else
