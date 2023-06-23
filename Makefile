@@ -16,7 +16,7 @@ HEADER = cub3d.h
 
 ifeq ($(shell uname), Linux)
 	MLX_FLAGS = -lmlx -lm -lbsd -lX11 -lXext
-	MLX_DIR = minilibx-linux
+	MLX_DIR = minilibx-linux/
 	MLX_LINK = -L$(MLX_DIR)
 	MLX_INC = -I$(MLX_DIR)
 else
