@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:20 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/22 18:30:30 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/23 19:43:48 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,42 @@ void	ft_sigle_vect(double x, double y, t_data *data)
 	ft_vect_draw(&a, &b, data);
 }
 
+void	ft_coordinante(t_data *data)
+{
+	int i = 0;
+	while (i < 8)
+	{
+		mlx_string_put(data->mlx, data->win, 64 * 8, 64 * i, 0x00FF00 ,ft_itoa(i * 64));
+		i++;
+	}
+	i = 0;
+	while (i < 8)
+	{
+		mlx_string_put(data->mlx, data->win, 64 * i, 64 * 8, 0x00FF00 ,ft_itoa(i * 64));
+		i++;
+	}
+}
+
+void	ft_vector_checker_test(t_data *data)
+{
+	static int i;
+	double	hypo = 0;
+	double	near_x = 0;
+	double yy;
+
+	near_x = ceil(data->rect->xpos/64) * 64;
+	if ((data->rect->deg >  PI/2 && data->rect->deg < PI + PI/2) )
+		near_x = floor(data->rect->xpos/64) * 64;
+	hypo = (near_x - data->rect->xpos) / cos (data->rect->deg);
+	yy = data->rect->ypos + sin(data->rect->deg) * hypo;
+	if (yy < 0 || yy > HEIGHT)
+		hypo = 600;
+	yy = data->rect->ypos + sin(data->rect->deg) * hypo;
+	ft_sigle_vect(near_x, data->rect->ypos,data);
+	ft_sigle_vect(data->rect->xpos, yy,data);
+	ft_sigle_vect(data->rect->xpos + cos(data->rect->deg) * hypo , yy,data);
+}
+
 void	ft_motion(t_data *data)
 {
 	mlx_clear_window(data->mlx, data->win);
@@ -56,17 +92,10 @@ void	ft_motion(t_data *data)
 	ft_rot(data);
 
 	/**/
-
-	ft_sigle_vect(ceil(data->rect->xpos/64) * 64, data->rect->ypos,data);
-	ft_sigle_vect(data->rect->xpos, data->rect->ypos +sin(data->rect->deg) * 50,data);
-	ft_sigle_vect(data->rect->xpos + cos(data->rect->deg) * 50 , data->rect->ypos+ sin(data->rect->deg) * 50,data);
+	ft_vector_checker_test(data);
 	ft_put_img(data);
-	int i =0;
-	while (i < 8)
-	{
-		mlx_string_put(data->mlx, data->win, 64 * 8, 64 * i, 0x00FF00 ,ft_itoa(i * 64));
-		i++;
-	}
+
+	ft_coordinante(data);
 }
 
 void	ft_move(t_data *data, int key)
