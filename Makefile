@@ -17,8 +17,8 @@ HEADER = cub3d.h
 ifeq ($(shell uname), Linux)
 	MLX_FLAGS = -lmlx -lm -lbsd -lX11 -lXext
 	MLX_DIR = minilibx-linux/
-	MLX_LINK = -L$(MLX_DIR)
-	MLX_INC = -I$(MLX_DIR)
+	MLX_LINK = -L/usr/lib/
+	MLX_INC = -I/usr/include
 else
 	MLX_FLAGS = -lmlx -framework OpenGL -framework AppKit
 	MLX_DIR =
@@ -58,7 +58,7 @@ FOBJ = $(addprefix $(OBJ_DIR), $(OBJ))
 all : $(NAME)
 
 $(NAME): $(OBJ_DIR) $(FOBJ) $(LIBFT_OBJ) $(GNL_OBJ)
-	${CC} -o $(NAME) $(FOBJ) $(LIBFT_OBJ) $(MLX_FLAGS) $(MLX_LINK)
+	${CC} -o $(NAME) $(FOBJ) $(LIBFT_OBJ) $(MLX_LINK) $(MLX_FLAGS)
 
 $(OBJ_DIR) :
 	mkdir -p $(OBJ_DIR)
