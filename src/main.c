@@ -6,11 +6,23 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:20 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/23 21:24:12 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/24 19:17:15 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+	int xmap = 8;
+	int ymap = 8;
+	int off_map = 64;
+	int map[] =	{1,1,1,1,1,1,1,1,
+				 1,0,0,0,0,0,0,1,
+				 1,0,0,0,0,0,0,1,
+				 1,0,0,0,0,0,0,1,
+				 1,0,0,0,0,0,0,1,
+				 1,0,0,1,0,0,0,1,
+				 1,0,0,1,0,0,0,1,
+				 1,1,1,1,1,1,1,1};
 
 void	ft_draw_hypo(t_data *data)
 {
@@ -67,44 +79,94 @@ void	ft_coordinante(t_data *data)
 void	ft_vector_horizontal_test(t_data *data)
 {
 	static int i;
-	double	hypo = 0;
 	double	near_x = 0;
 	double yy;
 	int	color = 0x00FF00;
 
-	near_x = ceil(data->rect->xpos/64) * 64;
-	if ((data->rect->deg >  PI/2 && data->rect->deg < PI + PI/2) )
+
+	printf("%f == %f\n", data->rect->deg - PI/2 , PI/2);
+	if ((data->rect->deg <  PI/2 && data->rect->deg < 3 * PI/2))
+	{
+		near_x = ceil(data->rect->xpos/64);
+		printf("here %f\n", near_x);
+		// yy = t
+	}
+	if ((data->rect->deg >  PI/2 && data->rect->deg < PI + PI/2))
+	{
 		near_x = floor(data->rect->xpos/64) * 64;
-	hypo = (near_x - data->rect->xpos) / cos (data->rect->deg);
-	yy = data->rect->ypos + sin(data->rect->deg) * hypo;
-	if (yy < 0 || yy > HEIGHT)
-		hypo = 600;
-	yy = data->rect->ypos + sin(data->rect->deg) * hypo;
+	}
 	ft_sigle_vect(near_x, data->rect->ypos, color,data);
-	ft_sigle_vect(data->rect->xpos, yy, color,data);
-	ft_sigle_vect(data->rect->xpos + cos(data->rect->deg) * hypo , yy, color,data);
+	// ft_sigle_vect(data->rect->xpos, yy, color,data);
+	// ft_sigle_vect(data->rect->xpos + cos(data->rect->deg) * hypo , yy, color,data);
+}
+
+int	*ft_conv_to_map(double x, double y)
+{
+	int	mpx, mpy;
+	int cordinnates;
+	int *ret = malloc(sizeof(int) * 2);
+
+	ret[0] = ((int)(x / 64)*64) / 64;
+	ret[1] = ((int)(y / 64)*64) / 64;
+	printf("x %d\n", ret[0]);
+	printf("y %d\n", ret[1]);
+	return (ret);
 }
 
 void	ft_vector_vertical_test(t_data *data)
 {
-	static int i;
-	double	hypo = 0;
+	int rep, xo, yo;
+	rep = 0;
 	double	near_y = 0;
-	double xx;
+	double xx ,newx, newy;
 	int	color = 0x0000FF;
 
-	near_y = ceil(data->rect->ypos/64) * 64;
+	if (data->rect->deg < PI)
+	{
+		near_y = (int)(data->rect->ypos/64) * 64 + 64;
+		xx = data->rect->xpos - (data->rect->ypos - near_y) / tan(data->rect->deg);
+		yo = 64;
+		xo = yo /tan(data->rect->deg);
+		newx = xx + xo;
+		newy = near_y + yo;
+	}
 	if (data->rect->deg > PI)
-		near_y = floor(data->rect->ypos/64) * 64;
-	hypo = (near_y - data->rect->ypos) / sin (data->rect->deg);
-	xx = data->rect->xpos + cos(data->rect->deg) * hypo;
-	printf("%f\n", xx);
-	if (xx < 0 || xx > HEIGHT)
-		hypo = 600;
-	xx = data->rect->xpos + cos(data->rect->deg) * hypo;
+	{
+		near_y = ((int)(data->rect->ypos/64) * 64) - 0.00001;
+		xx = data->rect->xpos - (data->rect->ypos - near_y) / tan(data->rect->deg);
+		yo = -64;
+		xo = yo /tan(data->rect->deg);
+		newx = xx + xo;
+		newy = near_y + yo;
+	}
+	if (data->rect->deg == 0 || data->rect->deg == PI)
+	{
+		xx = data->rect->xpos;
+		near_y = data->rect->ypos;
+		rep = 8;
+	}
+	while (rep < 8)
+	{
+		int	*iswall = ft_conv_to_map(xx, near_y);
+		int	mp = xmap * iswall[1] + iswall[0];
+		printf("mp %d\n", mp);
+		if ( mp < xmap * ymap && map[mp] == 1)
+		{
+			printf("here\n");
+			rep = 8;
+		}
+		else
+		{
+			xx += xo;
+			near_y += yo;
+			rep++;
+		}
+	}
+	printf("xx %f,  yy %f\n", xx, near_y);
+	// printf("x %f,  y %f\n", newx, newy);
 	ft_sigle_vect(data->rect->xpos, near_y, color,data);
 	ft_sigle_vect(xx, data->rect->ypos, color,data);
-	ft_sigle_vect(xx , data->rect->ypos + sin(data->rect->deg) * hypo, color,data);
+	ft_sigle_vect(xx,near_y, color,data);
 }
 
 void	ft_motion(t_data *data)
@@ -116,7 +178,7 @@ void	ft_motion(t_data *data)
 
 	/**/
 	ft_vector_horizontal_test(data);
-	ft_vector_vertical_test(data);
+	// ft_vector_vertical_test(data);
 	ft_put_img(data);
 
 	ft_coordinante(data);
@@ -163,19 +225,7 @@ int	ft_key(int key, t_data *data)
 
 void	ft_map(t_data *data)
 {
-	int	xmap, ymap, off_map;
 
-	xmap = 8;
-	ymap = 8;
-	off_map = 64;
-	int map[] =	{1,1,1,1,1,1,1,1,
-				 1,0,0,0,0,0,0,1,
-				 1,0,0,0,0,0,0,1,
-				 1,0,0,0,0,0,0,1,
-				 1,0,0,0,0,0,0,1,
-				 1,0,0,1,0,0,0,1,
-				 1,0,0,1,0,0,0,1,
-				 1,1,1,1,1,1,1,1};
 	int color, i, j;
 	color = 0;
 	i = 0;
