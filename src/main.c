@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:20 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/24 19:17:15 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/25 02:22:21 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,25 +78,36 @@ void	ft_coordinante(t_data *data)
 
 void	ft_vector_horizontal_test(t_data *data)
 {
-	static int i;
+	int rep = 0;
 	double	near_x = 0;
 	double yy;
 	int	color = 0x00FF00;
 
-
-	printf("%f == %f\n", data->rect->deg - PI/2 , PI/2);
-	if ((data->rect->deg <  PI/2 && data->rect->deg < 3 * PI/2))
+ // [2PI, 3PI/2] && [0 , PI/2]
+	printf("%f == %f\n", data->rect->deg   , 3 * PI/2);
+	printf("%f == %f\n", data->rect->deg   , PI/2);
+	if (((data->rect->deg < 2*PI) && (data->rect->deg > 3 * PI / 2)) \
+			|| ((data->rect->deg > 0) && (data->rect->deg < PI / 2)))
 	{
-		near_x = ceil(data->rect->xpos/64);
-		printf("here %f\n", near_x);
-		// yy = t
+		near_x = ceil(data->rect->xpos / 64) * 64;
+		yy = data->rect->ypos - (tan(data->rect->deg) * (data->rect->xpos - near_x));
 	}
-	if ((data->rect->deg >  PI/2 && data->rect->deg < PI + PI/2))
+	if (((data->rect->deg <  3 * PI / 2) && (data->rect->deg > PI)) \
+			|| ((data->rect->deg < PI) && (data->rect->deg > PI / 2)))
 	{
 		near_x = floor(data->rect->xpos/64) * 64;
+		yy = data->rect->ypos - (tan(data->rect->deg) * (data->rect->xpos - near_x));
+		printf("here2 %f\n", near_x);
 	}
+	if ((data->rect->deg == PI / 2) || (data->rect->deg == 3 * (PI / 2)))
+	{
+		near_x = data->rect->xpos;
+		yy = data->rect->ypos;
+		rep = 8;
+	}
+	printf("yy %f\n", yy);
 	ft_sigle_vect(near_x, data->rect->ypos, color,data);
-	// ft_sigle_vect(data->rect->xpos, yy, color,data);
+	ft_sigle_vect(data->rect->xpos, yy, color,data);
 	// ft_sigle_vect(data->rect->xpos + cos(data->rect->deg) * hypo , yy, color,data);
 }
 

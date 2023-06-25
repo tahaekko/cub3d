@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:04 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/24 17:38:20 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/25 02:20:23 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_rect	*ft_rect_init()
 	rect->xpos = 300;
 	rect->ypos = 300;
 	rect->ray_len = 200;
-	rect->deg = 1.64;
+	rect->deg = 6.24;
 	rect->color = RECTCOLOR;
 	return(rect);
 }
