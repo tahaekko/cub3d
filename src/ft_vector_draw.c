@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:24:33 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/23 21:01:15 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/25 03:34:00 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	ft_vect_draw(t_vertex *a, t_vertex *b, int color, t_data *data)
 		else
 			x+= cos(hypo[1]);
 		y += sin(hypo[1]);
+		
 		i++;
 	}
 }
