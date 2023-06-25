@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:20 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/25 03:30:29 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/25 15:05:03 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_rot(t_data *data)
 	}
 }
 
-void	ft_sigle_vect(double x, double y, int color,t_data *data)
+void	ft_sigle_vect(float x, float y, int color,t_data *data)
 {
 	t_vertex a, b;
 	b.x = data->rect->xpos; b.y = data->rect->ypos;
@@ -76,7 +76,7 @@ void	ft_coordinante(t_data *data)
 	}
 }
 
-int	*ft_conv_to_map(double x, double y)
+int	*ft_conv_to_map(float x, float y)
 {
 	int	mpx, mpy;
 	int cordinnates;
@@ -89,21 +89,20 @@ int	*ft_conv_to_map(double x, double y)
 	return (ret);
 }
 
-void	ft_vector_horizontal_test(t_data *data)
+t_vertex	ft_vector_vertical_test(t_data *data)
 {
 	int rep ,xo, yo;
+	t_vertex ret;
 	rep = 0;
-	double	near_x = 0;
-	double yy , newx , newy;
+	float	near_x = 0;
+	float yy , newx , newy;
 	int	color = 0x00FF00;
 
  // [2PI, 3PI/2] && [0 , PI/2]
-	printf("%f == %f\n", data->rect->deg   , 3 * PI/2);
-	printf("%f == %f\n", data->rect->deg   , PI/2);
 	if (((data->rect->deg < 2*PI) && (data->rect->deg > 3 * PI / 2)) \
 			|| ((data->rect->deg > 0) && (data->rect->deg < PI / 2)))
 	{
-		near_x = ceil(data->rect->xpos / 64) * 64;
+		near_x = (int)(data->rect->xpos / 64) * 64 + 64;
 		yy = data->rect->ypos - (tan(data->rect->deg) * (data->rect->xpos - near_x));
 		xo = 64;
 		yo = xo * tan(data->rect->deg);
@@ -113,7 +112,7 @@ void	ft_vector_horizontal_test(t_data *data)
 	if (((data->rect->deg <  3 * PI / 2) && (data->rect->deg > PI)) \
 			|| ((data->rect->deg < PI) && (data->rect->deg > PI / 2)))
 	{
-		near_x = floor(data->rect->xpos/64) * 64;
+		near_x = ((int)(data->rect->xpos/64) * 64) - 0.0001;
 		yy = data->rect->ypos - (tan(data->rect->deg) * (data->rect->xpos - near_x));
 		xo = -64;
 		yo = xo * tan(data->rect->deg);
@@ -127,16 +126,16 @@ void	ft_vector_horizontal_test(t_data *data)
 		rep = 8;
 	}
 	printf("yy %f\n", yy);
+	ft_sigle_vect(near_x , data->rect->ypos, 0x0000FF, data);
+	int	*iswall;
+	int	mp;
 	while (rep < 8)
 	{
-		int	*iswall = ft_conv_to_map(near_x, yy);
-		int	mp = xmap * iswall[1] + iswall[0];
-		printf("mp %d\n", mp);
+		iswall = ft_conv_to_map(near_x, yy);
+		mp = xmap * iswall[1] + iswall[0];
+		printf("1 mp %d\n", mp);
 		if ( mp < xmap * ymap && map[mp] == 1)
-		{
-			printf("here\n");
-			rep = 8;
-		}
+			break;
 		else
 		{
 			near_x += xo;
@@ -144,19 +143,19 @@ void	ft_vector_horizontal_test(t_data *data)
 			rep++;
 		}
 	}
-	ft_sigle_vect(near_x, data->rect->ypos, color,data);
-	ft_sigle_vect(data->rect->xpos, yy, color,data);
-	// ft_sigle_vect(data->rect->xpos + cos(data->rect->deg) * hypo , yy, color,data);
+	ret.x = near_x; ret.y = yy;
+	return (ret);
 }
 
 
 
-void	ft_vector_vertical_test(t_data *data)
+t_vertex	ft_vector_horizontal_test(t_data *data)
 {
 	int rep, xo, yo;
 	rep = 0;
-	double	near_y = 0;
-	double xx ,newx, newy;
+	t_vertex	ret;
+	float	near_y = 0;
+	float xx ,newx, newy;
 	int	color = 0x0000FF;
 
 	if (data->rect->deg < PI)
@@ -183,16 +182,15 @@ void	ft_vector_vertical_test(t_data *data)
 		near_y = data->rect->ypos;
 		rep = 8;
 	}
+	int	*iswall;
+	int	mp;
 	while (rep < 8)
 	{
-		int	*iswall = ft_conv_to_map(xx, near_y);
-		int	mp = xmap * iswall[1] + iswall[0];
-		printf("mp %d\n", mp);
+		iswall = ft_conv_to_map(xx, near_y);
+		mp = xmap * iswall[1] + iswall[0];
+		printf("2 mp %d\n", mp);
 		if ( mp < xmap * ymap && map[mp] == 1)
-		{
-			printf("here\n");
-			rep = 8;
-		}
+			break;
 		else
 		{
 			xx += xo;
@@ -200,11 +198,13 @@ void	ft_vector_vertical_test(t_data *data)
 			rep++;
 		}
 	}
-	printf("xx %f,  yy %f\n", xx, near_y);
-	// printf("x %f,  y %f\n", newx, newy);
-	ft_sigle_vect(data->rect->xpos, near_y, color,data);
-	ft_sigle_vect(xx, data->rect->ypos, color,data);
-	ft_sigle_vect(xx,near_y, color,data);
+	ret.x = xx; ret.y = near_y;
+	return (ret);
+}
+
+float	dist(t_vertex player, t_vertex point)
+{
+	return (sqrt(((point.x - player.x) * (point.x - player.x)) + ((point.y - player.y) * (point.y - player.y))));
 }
 
 void	ft_motion(t_data *data)
@@ -215,8 +215,19 @@ void	ft_motion(t_data *data)
 	ft_rot(data);
 
 	/**/
-	ft_vector_horizontal_test(data);
-	ft_vector_vertical_test(data);
+	t_vertex hori = ft_vector_horizontal_test(data);
+	t_vertex verti =ft_vector_vertical_test(data);
+	t_vertex player;
+	player.x = data->rect->xpos;
+	player.y = data->rect->ypos;
+
+	float d1 , d2;
+	d1 = dist(player, hori);
+	d2 = dist(player, verti);
+	if (d1 < d2)
+		ft_vect_draw(&player, &hori, 0x00FF00, data);
+	else
+		ft_vect_draw(&player, &verti, 0xFF0000, data);
 	ft_put_img(data);
 
 	ft_coordinante(data);
@@ -224,7 +235,7 @@ void	ft_motion(t_data *data)
 
 void	ft_move(t_data *data, int key)
 {
-	double speed;
+	float speed;
 
 	speed = 5;
 	if (key == KEY_UP)

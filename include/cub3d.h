@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:24:45 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/23 20:55:40 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/25 04:13:13 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,23 @@
 
 typedef struct s_test
 {
-	double	btw;
-	double	hypo;
+	float	btw;
+	float	hypo;
 }	t_test;
 
 typedef struct s_vertex
 {
-	double	x;
-	double	y;
+	float	x;
+	float	y;
 }	t_vertex;
 
 typedef struct s_rect{
-	double	xpos;
-	double	ypos;
-	double	deg;
-	double	rotx;
-	double	roty;
-	double	ray_len;
+	float	xpos;
+	float	ypos;
+	float	deg;
+	float	rotx;
+	float	roty;
+	float	ray_len;
 	int	height;
 	int	width;
 	int	color;
@@ -102,6 +102,6 @@ void	ft_draw_square(t_data *data, int xpos, int ypos, int color, int size);
 void	ft_background(t_data *data);
 
 /**/
-double	*ft_hypo_calc(t_vertex *a, t_vertex *b);
+float	*ft_hypo_calc(t_vertex *a, t_vertex *b);
 void	ft_vect_draw(t_vertex *a, t_vertex *b, int color, t_data *data);
 
