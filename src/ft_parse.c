@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:25:19 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/27 16:45:44 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/27 18:01:20 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,47 @@ int	*ft_map_fill(int fd, int width, int height)
 	return (map);
 }
 
+void	ft_wall_check(int *dim, int * map)
+{
+	int	i;
+	int	j;
+	int	width;
+	int	height;
+
+	i = 0;
+	j = 0;
+	width = dim[0];
+	height = dim[1];
+	while (i < height)
+	{
+		j = 0;
+		while (j < width)
+		{
+			if (i == 0 && map[i * dim[0] + j] == 0)
+			{
+				ft_putendl_fd("Fucked", 2);
+				exit(1);
+			}
+			if ((map[i * dim[0] + j] == 0) &&
+			(map[(i-1)* dim[0] + j] == 2 ||
+			map[(i-1)* dim[0] + j - 1 ] == 2 ||
+			map[(i-1)* dim[0] + j + 1 ] == 2 ||
+			map[(i+1) *dim[0] + j] == 2 ||
+			map[(i+1) *dim[0] + j - 1] == 2 ||
+			map[(i+1) *dim[0] + j + 1] == 2 ||
+			map[i * dim[0] + j + 1]== 2 ||
+			map[i * dim[0] + j - 1] == 2))
+			{
+				ft_putendl_fd("Fucked", 2);
+				exit(1);
+			}
+			j++;
+		}
+		i++;
+	}
+	ft_putendl_fd("Valid !", 1);
+}
+
 void	ft_parse(char *filename)
 {
 	int	fd;
@@ -122,6 +163,7 @@ void	ft_parse(char *filename)
 	close(fd);
 	fd = open(filename, O_RDONLY);
 	map = ft_map_fill(fd, dimensions[0], dimensions[1]);
+	ft_wall_check(dimensions, map);
 	int i = 0;
 	int j = 0;
 	while (i < dimensions[1])

@@ -6,7 +6,7 @@
 #    By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/21 17:25:24 by msamhaou          #+#    #+#              #
-#    Updated: 2023/06/26 19:10:43 by msamhaou         ###   ########.fr        #
+#    Updated: 2023/06/27 17:54:23 by msamhaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ GNL_DIR = gnl/
 GNL_OBJ_FILE = $(GNL_SRC:.c=.o)
 GNL_OBJ = $(addprefix $(OBJ_DIR), $(GNL_OBJ_FILE))
 #****************LIBFT****************
-LIBFT_SRC =	ft_strlen.c
+LIBFT_SRC =	ft_strlen.c ft_putendl_fd.c ft_putstr_fd.c ft_putchar_fd.c
 LIBFT_DIR =	libft/
 LIBFT_OBJ_FILE = $(LIBFT_SRC:.c=.o)
 LIBFT_OBJ = $(addprefix $(OBJ_DIR), $(LIBFT_OBJ_FILE))
