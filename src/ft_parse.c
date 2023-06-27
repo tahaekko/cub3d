@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:25:19 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/26 19:58:07 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/27 16:45:44 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,29 +74,25 @@ int	ft_map_component_find(char c)
 	return (0);
 }
 
-int	*ft_map_fill(int fd, int height, int width)
+int	*ft_map_fill(int fd, int width, int height)
 {
 	char	*line;
 	int		i;
 	int		*map;
-	int		widtho;
-	int		heighto;
+	int		j;
 
 	map = malloc(sizeof(int) * (width * height));
-	widtho = width;
-	heighto = 0;
 	i = 0;
-	int j = 0;
-	while (widtho)
+	j = 0;
+	while (height)
 	{
 		line = get_next_line(fd);
-		i = 0;
 		j = 0;
-		while (j < height)
+		while (j < width)
 		{
-			if (!(*line) && widtho)
+			if (!(*line) && height)
 			{
-				map[i] = 9;
+				map[i] = 2;
 				*(line + 1) = '\0';
 			}
 			else
@@ -105,8 +101,7 @@ int	*ft_map_fill(int fd, int height, int width)
 			j++;
 			line++;
 		}
-		printf("%d\n", map[0]);
-		widtho--;
+		height--;
 	}
 	return (map);
 }
@@ -127,5 +122,14 @@ void	ft_parse(char *filename)
 	close(fd);
 	fd = open(filename, O_RDONLY);
 	map = ft_map_fill(fd, dimensions[0], dimensions[1]);
-	printf("%d", map[0]);
+	int i = 0;
+	int j = 0;
+	while (i < dimensions[1])
+	{
+		j = 0;
+		while (j < dimensions[0])
+			printf("%d", map[i * dimensions[0] + j++]);
+		printf("\n");
+		i++;
+	}
 }
