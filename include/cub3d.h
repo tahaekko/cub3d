@@ -6,7 +6,7 @@
 /*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:38 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/28 03:19:15 by taha             ###   ########.fr       */
+/*   Updated: 2023/06/28 05:31:47 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <fcntl.h>
 # include "libft.h"
 # include "get_next_line.h"
-# define WIDTH 1080
-# define HEIGHT 720
+# define WIDTH 660
+# define HEIGHT 660
 # define PI 3.141592653589793
 # define GRID 64
 
@@ -71,6 +71,8 @@ typedef struct s_vect
 
 typedef struct s_player
 {
+	int		height;
+	int		width;
 	float	xpos;
 	float	ypos;
 	float	angle;
@@ -90,6 +92,7 @@ typedef struct s_map
 {
 	int	xmap;
 	int	ymap;
+	int off_map;
 	int	*map_compo;
 }	t_map;
 
