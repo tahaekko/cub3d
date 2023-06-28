@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:38 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/26 19:05:37 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/28 03:19:15 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,20 +86,23 @@ typedef struct s_img{
 	int		endian;
 }	t_img;
 
-typedef struct s_data
-{
-	void		*mlx;
-	void		*win;
-	t_img		img[1];
-	t_player	player[1];
-}	t_data;
-
 typedef struct s_map
 {
 	int	xmap;
 	int	ymap;
 	int	*map_compo;
 }	t_map;
+
+
+typedef struct s_data
+{
+	void		*mlx;
+	void		*win;
+	t_img		img[1];
+	t_map		map[1];
+	t_player	player[1];
+}	t_data;
+
 
 void	ft_init(t_data *data);
 void	ft_put_pix(int x, int y, int color, t_data *data);
@@ -108,6 +111,6 @@ void	ft_draw_square(t_data *data, int xpos, int ypos, int color, int size);
 void	ft_background(t_data *data);
 void	ft_draw_map(t_data *data);
 void	ft_draw_init(t_data *data);
-void	ft_parse(char *filename);
+void	ft_parse(char *filename, t_data *data);
 
 #endif

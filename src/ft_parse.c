@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:25:19 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/27 18:01:20 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/06/28 03:18:52 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void	ft_wall_check(int *dim, int * map)
 	ft_putendl_fd("Valid !", 1);
 }
 
-void	ft_parse(char *filename)
+void	ft_parse(char *filename, t_data *data)
 {
 	int	fd;
 	int	*dimensions;
@@ -163,15 +163,8 @@ void	ft_parse(char *filename)
 	close(fd);
 	fd = open(filename, O_RDONLY);
 	map = ft_map_fill(fd, dimensions[0], dimensions[1]);
+	data->map->map_compo = map;
+	data->map->xmap = dimensions[0];
+	data->map->ymap = dimensions[1];
 	ft_wall_check(dimensions, map);
-	int i = 0;
-	int j = 0;
-	while (i < dimensions[1])
-	{
-		j = 0;
-		while (j < dimensions[0])
-			printf("%d", map[i * dimensions[0] + j++]);
-		printf("\n");
-		i++;
-	}
 }
