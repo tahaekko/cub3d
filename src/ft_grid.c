@@ -6,7 +6,7 @@
 /*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:07 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/28 04:35:13 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/01 12:23:22 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void ft_draw_map(t_data *data)
 				color = FLOOR;
 			else
 				color = 0;
-			ft_draw_square(data, i *  data->map->off_map , j *  data->map->off_map, color, data->map->off_map);
+			ft_draw_square(data, j *  data->map->off_map, i *  data->map->off_map, color, data->map->off_map);
 			j++;
 		}
 		i++;

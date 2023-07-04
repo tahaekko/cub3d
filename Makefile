@@ -6,7 +6,7 @@
 #    By: taha <taha@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/21 17:25:24 by msamhaou          #+#    #+#              #
-#    Updated: 2023/06/28 02:31:35 by taha             ###   ########.fr        #
+#    Updated: 2023/07/01 12:37:01 by taha             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ GNL_DIR = GNL/
 GNL_OBJ_FILE = $(GNL_SRC:.c=.o)
 GNL_OBJ = $(addprefix $(OBJ_DIR), $(GNL_OBJ_FILE))
 #****************LIBFT****************
-LIBFT_SRC =	ft_strlen.c ft_putendl_fd.c ft_putstr_fd.c ft_putchar_fd.c ft_strjoin.c ft_strdup.c ft_memcpy.c ft_strlcpy.c
+LIBFT_SRC =	ft_strlen.c ft_putendl_fd.c ft_putstr_fd.c ft_putchar_fd.c ft_strjoin.c ft_strdup.c ft_memcpy.c ft_strlcpy.c\
+			ft_itoa.c
 LIBFT_DIR =	libft/
 LIBFT_OBJ_FILE = $(LIBFT_SRC:.c=.o)
 LIBFT_OBJ = $(addprefix $(OBJ_DIR), $(LIBFT_OBJ_FILE))
@@ -44,7 +45,7 @@ LIBFT_OBJ = $(addprefix $(OBJ_DIR), $(LIBFT_OBJ_FILE))
 
 #*****************SRC*****************
 SRC_DIR = src/
-SRC = ft_init.c  main.c libx_tools.c ft_grid.c ft_parse.c
+SRC = ft_init.c  main.c libx_tools.c ft_grid.c ft_parse.c ft_vector_draw.c
 FSRC = $(addprefix $(SRC_DIR), $(SRC))
 
 OBJ = $(SRC:.c=.o)

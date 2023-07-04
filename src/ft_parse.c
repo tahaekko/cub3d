@@ -6,7 +6,7 @@
 /*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:25:19 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/28 03:18:52 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/01 00:25:34 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,13 @@ int	*ft_get_dim(int fd)
 	while (line)
 	{
 		line = get_next_line(fd);
+		height++;
 		if (!line)
 			break;
 		if (!ft_valid((const char *)line))
 			return (free(line), exit(1), NULL);
 		width = ft_max(width, ft_strlen(line));
 		free(line);
-		height++;
 	}
 	if (tmp)
 		free(tmp);
@@ -79,12 +79,15 @@ int	*ft_map_fill(int fd, int width, int height)
 	char	*line;
 	int		i;
 	int		*map;
-	int		j;
+	int		j, k ;
 
 	map = malloc(sizeof(int) * (width * height));
+	printf("H : %d\n", height);
+	printf("W : %d\n", width);
 	i = 0;
 	j = 0;
-	while (height)
+	k = 0;
+	while (k < height)
 	{
 		line = get_next_line(fd);
 		j = 0;
@@ -96,12 +99,14 @@ int	*ft_map_fill(int fd, int width, int height)
 				*(line + 1) = '\0';
 			}
 			else
-				map[i] = ft_map_component_find(*line);
+				map[k * width + j] = ft_map_component_find(*line);
+			// printf("%d", map[i]);
 			i++;
 			j++;
 			line++;
 		}
-		height--;
+		// printf("\n");
+		k++;
 	}
 	return (map);
 }

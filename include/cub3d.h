@@ -6,7 +6,7 @@
 /*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:38 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/06/28 05:31:47 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/02 18:06:21 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@
 
 #endif
 
+extern int g_var;
 typedef struct s_vertex
 {
 	float	x;
@@ -74,6 +75,7 @@ typedef struct s_player
 	int		height;
 	int		width;
 	float	xpos;
+	t_vertex	point[1];
 	float	ypos;
 	float	angle;
 	float	xrot;
@@ -96,7 +98,10 @@ typedef struct s_map
 	int	*map_compo;
 }	t_map;
 
-
+typedef	struct s_ray
+{
+	t_vertex	hit_point[1];
+}	t_ray;
 typedef struct s_data
 {
 	void		*mlx;
@@ -104,6 +109,7 @@ typedef struct s_data
 	t_img		img[1];
 	t_map		map[1];
 	t_player	player[1];
+	t_ray		ray[1];
 }	t_data;
 
 
@@ -115,5 +121,7 @@ void	ft_background(t_data *data);
 void	ft_draw_map(t_data *data);
 void	ft_draw_init(t_data *data);
 void	ft_parse(char *filename, t_data *data);
+void	ft_vect_draw(t_vertex *a, t_vertex *b, int color, t_data *data);
+void	ft_coordinante(t_data *data);
 
 #endif
