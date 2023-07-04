@@ -6,7 +6,7 @@
 /*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/04 17:52:23 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/04 19:44:01 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,10 @@ t_vertex	*ft_horizontal_check(t_data *data)
 		b->y = (int)(player->ypos / data->map->off_map) * data->map->off_map + data->map->off_map - 0.00001;
 		b->x = player->xpos - (player->ypos - b->y) / tan(player->angle);
 	}
-	if (player->angle == PI || player->angle == 0)
+	// if (player->angle == PI || player->angle == 0)
+	if ((int)(player->angle * RAD_TO_DEG) == 360 || (int)(player->angle * RAD_TO_DEG) == 180)
 	{
+		printf("YOOOOOOOOOOOOOOOOOOO\n");
 		b->x = player->point->x;
 		b->y = player->point->y;
 	}
@@ -126,8 +128,11 @@ void	ft_expand_hori(t_data *data)
 		yo = data->map->off_map;
 		xo = yo / tan(data->player->angle);
 	}
-	if (player->angle == PI || player->angle == 0 || data->ray->hit_point->x < 0 || data->ray->hit_point->x > data->map->xmap * data->map->off_map)
-		rep == data->map->ymap;
+	if ((int)(player->angle * RAD_TO_DEG) == 360 || (int)(player->angle * RAD_TO_DEG) == 180 || data->ray->hit_point->x < 0 || data->ray->hit_point->x > data->map->xmap * data->map->off_map)
+	{
+		printf("YOOOOOOOOOOOOOOOOOOO2\n");
+		rep = data->map->ymap;
+	}
 	while (rep < data->map->ymap)
 	{
 		data->ray->hit_point->x += xo;

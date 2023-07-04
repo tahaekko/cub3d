@@ -6,7 +6,7 @@
 /*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:38 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/02 18:06:21 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/04 19:34:09 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define WIDTH 660
 # define HEIGHT 660
 # define PI 3.141592653589793
+# define RAD_TO_DEG 57.2958
 # define GRID 64
 
 #define RECTCOLOR 0x7BB30C
