@@ -6,7 +6,7 @@
 /*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:38 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/04 19:34:09 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/06 12:50:22 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ typedef struct s_map
 
 typedef	struct s_ray
 {
-	t_vertex	hit_point[1];
+	t_vertex	hit_point_h[1];
+	t_vertex	hit_point_v[1];
 }	t_ray;
 typedef struct s_data
 {
