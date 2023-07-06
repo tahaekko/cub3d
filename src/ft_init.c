@@ -6,7 +6,7 @@
 /*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/06 13:44:23 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/06 15:16:27 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_vertical_check(t_data *data)
 		b->x = (int)(player->xpos / data->map->off_map) * data->map->off_map - 0.00001 ;
 		b->y = player->ypos - ((player->xpos - b->x) * tan(player->angle));
 	}
-	if (player->angle == 3 * (PI / 2) || player->angle == PI/2)
+	if ((int)(player->angle * RAD_TO_DEG) == 90 || (int)(player->angle * RAD_TO_DEG) == 180 + 90)
 	{
 		b->x = player->point->x;
 		b->y = player->point->y;
@@ -140,11 +140,42 @@ void	ft_expand_hori(t_data *data)
 	}
 }
 
-// void	ft_expand_verti(t_data *data)
-// {
-// 	if (((player->angle < 2*PI) && (player->angle > 3 * PI / 2)) \
-// 			|| ((player->angle > 0) && (player->angle < PI / 2)))
-// }
+void	ft_expand_verti(t_data *data)
+{
+	t_ray	*ray = data->ray;
+	t_player	*player = data->player;
+	int	x;
+	int	y;
+	int rep;
+	float	xo, yo;
+
+	rep = 0;
+	if (((player->angle < 2*PI) && (player->angle > 3 * PI / 2)) \
+			|| ((player->angle > 0) && (player->angle < PI / 2)))
+	{
+		xo = data->map->off_map;
+		yo = xo * tan(player->angle);
+	}
+	if (((player->angle <  3 * PI / 2) && (player->angle > PI)) \
+			|| ((player->angle < PI) && (player->angle > PI / 2)))
+	{
+		xo = -data->map->off_map;
+		yo = xo * tan(player->angle);
+	}
+	if ((int)(player->angle * RAD_TO_DEG) == 90 || (int)(player->angle * RAD_TO_DEG) == (180 + 90) || data->ray->hit_point_v->y < 0 \
+				|| (int)(data->ray->hit_point_v->y) > data->map->ymap * data->map->off_map)
+		rep = data->map->ymap;
+	while (rep < data->map->ymap)
+	{
+		x = (int)(data->ray->hit_point_v->x / data->map->off_map);
+		y = (int)(data->ray->hit_point_v->y / data->map->off_map);
+		if (data->map->map_compo[y * data->map->xmap + x] == 1)
+			break;
+		data->ray->hit_point_v->x += xo;
+		data->ray->hit_point_v->y += yo;
+		rep++;
+	}
+}
 
 void	ft_draw_ray(t_data *data)
 {
@@ -155,10 +186,11 @@ void	ft_draw_ray(t_data *data)
 	ft_horizontal_check(data);
 	ft_expand_hori(data);
 	ft_vertical_check(data);
-	// ft_expand_verti(data);
+	ft_expand_verti(data);
 
 
 	ft_vect_draw(data->player->point, data->ray->hit_point_h, 0x00FF00, data);
+	ft_vect_draw(data->player->point, data->ray->hit_point_v, 0xFF0000, data);
 }
 
 void	ft_draw_init(t_data *data)
