@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/07 19:39:29 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/07 20:00:16 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	ft_vertical_check(t_data *data)
 	t_player	*player;
 	t_ray		*ray;
 	t_vertex	*b;
-	float	new_angle;
 
 	b = data->ray->hit_point_v;
 	player = data->player;
@@ -86,7 +85,6 @@ t_vertex	*ft_horizontal_check(t_data *data)
 	t_player	*player;
 	t_ray		*ray;
 	t_vertex	*b;
-	float	new_angle;
 
 	player = data->player;
 	ray = data->ray;
@@ -155,23 +153,21 @@ void	ft_expand_verti(t_data *data)
 	int	y;
 	int rep;
 	float	xo, yo;
-	float	new_angle;
 
-	new_angle = player->angle - (30 * DEG_TO_RAD);
 	rep = 0;
-	if (((new_angle < 2*PI) && (new_angle > 3 * PI / 2)) \
-			|| ((new_angle > 0) && (new_angle < PI / 2)))
+	if (((ray->angle < 2*PI) && (ray->angle > 3 * PI / 2)) \
+			|| ((ray->angle > 0) && (ray->angle < PI / 2)))
 	{
 		xo = data->map->off_map;
-		yo = xo * tan(new_angle);
+		yo = xo * tan(ray->angle);
 	}
-	if (((new_angle <  3 * PI / 2) && (new_angle > PI)) \
-			|| ((new_angle < PI) && (new_angle > PI / 2)))
+	if (((ray->angle <  3 * PI / 2) && (ray->angle > PI)) \
+			|| ((ray->angle < PI) && (ray->angle > PI / 2)))
 	{
 		xo = -data->map->off_map;
-		yo = xo * tan(new_angle);
+		yo = xo * tan(ray->angle);
 	}
-	if ((int)(new_angle * RAD_TO_DEG) == 90 || (int)(new_angle * RAD_TO_DEG) == (180 + 90) || data->ray->hit_point_v->y < 0 \
+	if ((int)(ray->angle * RAD_TO_DEG) == 90 || (int)(ray->angle * RAD_TO_DEG) == (180 + 90) || data->ray->hit_point_v->y < 0 \
 				|| (int)(data->ray->hit_point_v->y) > data->map->ymap * data->map->off_map)
 		rep = data->map->ymap;
 	while (rep < data->map->ymap)
@@ -198,11 +194,15 @@ void	ft_draw_ray(t_data *data)
 	ray = data->ray;
 	player = data->player;
 
-	min_angle = -60;
-	min_angle = 60;
-	while (min_angle)
+	min_angle = -30;
+	max_angle = 30;
+	while (min_angle < max_angle)
 	{
 		ray->angle = player->angle - (min_angle * DEG_TO_RAD);
+		if (ray->angle > 2 * PI)
+			ray->angle -= 2 * PI;
+		if (ray->angle < 0)
+			ray->angle += 2 * PI;
 		ft_horizontal_check(data);
 		ft_expand_hori(data);
 		ft_vertical_check(data);
