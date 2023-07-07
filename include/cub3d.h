@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:38 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/06 12:50:22 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/07 19:50:26 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define HEIGHT 660
 # define PI 3.141592653589793
 # define RAD_TO_DEG 57.2958
+# define DEG_TO_RAD 0.0174533
 # define GRID 64
 
 #define RECTCOLOR 0x7BB30C
@@ -103,6 +104,7 @@ typedef	struct s_ray
 {
 	t_vertex	hit_point_h[1];
 	t_vertex	hit_point_v[1];
+	float		angle;
 }	t_ray;
 typedef struct s_data
 {
@@ -125,5 +127,6 @@ void	ft_draw_init(t_data *data);
 void	ft_parse(char *filename, t_data *data);
 void	ft_vect_draw(t_vertex *a, t_vertex *b, int color, t_data *data);
 void	ft_coordinante(t_data *data);
+float	*ft_hypo_calc(t_vertex *a, t_vertex *b);
 
 #endif
