@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/06 15:16:27 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/07 19:39:29 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,26 @@ void	ft_draw_direction(t_data *data)
 void	ft_vertical_check(t_data *data)
 {
 	t_player	*player;
+	t_ray		*ray;
 	t_vertex	*b;
+	float	new_angle;
 
 	b = data->ray->hit_point_v;
 	player = data->player;
-	if (((player->angle < 2*PI) && (player->angle > 3 * PI / 2)) \
-			|| ((player->angle > 0) && (player->angle < PI / 2)))
+	ray = data->ray;
+	if (((ray->angle < 2*PI) && (ray->angle > 3 * PI / 2)) \
+			|| ((ray->angle > 0) && (ray->angle < PI / 2)))
 	{
 		b->x = (int)(player->xpos / data->map->off_map) * data->map->off_map + data->map->off_map - 0.00001;
-		b->y = player->ypos - ((player->xpos - b->x) * tan(player->angle));
+		b->y = player->ypos - ((player->xpos - b->x) * tan(ray->angle));
 	}
-	if (((player->angle <  3 * PI / 2) && (player->angle > PI)) \
-			|| ((player->angle < PI) && (player->angle > PI / 2)))
+	if (((ray->angle <  3 * PI / 2) && (ray->angle > PI)) \
+			|| ((ray->angle < PI) && (ray->angle > PI / 2)))
 	{
 		b->x = (int)(player->xpos / data->map->off_map) * data->map->off_map - 0.00001 ;
-		b->y = player->ypos - ((player->xpos - b->x) * tan(player->angle));
+		b->y = player->ypos - ((player->xpos - b->x) * tan(ray->angle));
 	}
-	if ((int)(player->angle * RAD_TO_DEG) == 90 || (int)(player->angle * RAD_TO_DEG) == 180 + 90)
+	if ((int)(ray->angle * RAD_TO_DEG) == 90 || (int)(ray->angle * RAD_TO_DEG) == 180 + 90)
 	{
 		b->x = player->point->x;
 		b->y = player->point->y;
@@ -81,22 +84,25 @@ void	ft_vertical_check(t_data *data)
 t_vertex	*ft_horizontal_check(t_data *data)
 {
 	t_player	*player;
+	t_ray		*ray;
 	t_vertex	*b;
+	float	new_angle;
 
 	player = data->player;
+	ray = data->ray;
 	b = data->ray->hit_point_h;
-	if (player->angle > PI)
+	if (ray->angle > PI)
 	{
 		b->y = (int)(player->ypos / data->map->off_map) * data->map->off_map - 0.00001;
-		b->x = player->xpos - (player->ypos - b->y) / tan(player->angle);
+		b->x = player->xpos - (player->ypos - b->y) / tan(ray->angle);
 	}
-	if (player->angle < PI)
+	if (ray->angle < PI)
 	{
 		b->y = (int)(player->ypos / data->map->off_map) * data->map->off_map + data->map->off_map - 0.00001;
-		b->x = player->xpos - (player->ypos - b->y) / tan(player->angle);
+		b->x = player->xpos - (player->ypos - b->y) / tan(ray->angle);
 	}
-	// if (player->angle == PI || player->angle == 0)
-	if ((int)(player->angle * RAD_TO_DEG) == 360 || (int)(player->angle * RAD_TO_DEG) == 180)
+	// if (ray->angle == PI || ray->angle == 0)
+	if ((int)(ray->angle * RAD_TO_DEG) == 360 || (int)(ray->angle * RAD_TO_DEG) == 180)
 	{
 		b->x = player->point->x;
 		b->y = player->point->y;
@@ -107,25 +113,26 @@ t_vertex	*ft_horizontal_check(t_data *data)
 void	ft_expand_hori(t_data *data)
 {
 	t_player *player;
+	t_ray	*ray;
 	int	rep = 0;
 	int	x;
 	int	y;
 	float	xo;
 	float	yo;
 
-
 	player = data->player;
-	if(player->angle > PI)
+	ray = data->ray;
+	if(ray->angle > PI)
 	{
 		yo = -data->map->off_map;
-		xo = yo / tan(data->player->angle);
+		xo = yo / tan(ray->angle);
 	}
-	if(player->angle < PI)
+	if(ray->angle < PI)
 	{
 		yo = data->map->off_map;
-		xo = yo / tan(data->player->angle);
+		xo = yo / tan(ray->angle);
 	}
-	if ((int)(player->angle * RAD_TO_DEG) == 360 || (int)(player->angle * RAD_TO_DEG) == 180 || data->ray->hit_point_h->x < 0 \
+	if ((int)(ray->angle * RAD_TO_DEG) == 360 || (int)(ray->angle * RAD_TO_DEG) == 180 || data->ray->hit_point_h->x < 0 \
 				|| data->ray->hit_point_h->x > data->map->xmap * data->map->off_map)
 		rep = data->map->ymap;
 	while (rep < data->map->ymap)
@@ -148,21 +155,23 @@ void	ft_expand_verti(t_data *data)
 	int	y;
 	int rep;
 	float	xo, yo;
+	float	new_angle;
 
+	new_angle = player->angle - (30 * DEG_TO_RAD);
 	rep = 0;
-	if (((player->angle < 2*PI) && (player->angle > 3 * PI / 2)) \
-			|| ((player->angle > 0) && (player->angle < PI / 2)))
+	if (((new_angle < 2*PI) && (new_angle > 3 * PI / 2)) \
+			|| ((new_angle > 0) && (new_angle < PI / 2)))
 	{
 		xo = data->map->off_map;
-		yo = xo * tan(player->angle);
+		yo = xo * tan(new_angle);
 	}
-	if (((player->angle <  3 * PI / 2) && (player->angle > PI)) \
-			|| ((player->angle < PI) && (player->angle > PI / 2)))
+	if (((new_angle <  3 * PI / 2) && (new_angle > PI)) \
+			|| ((new_angle < PI) && (new_angle > PI / 2)))
 	{
 		xo = -data->map->off_map;
-		yo = xo * tan(player->angle);
+		yo = xo * tan(new_angle);
 	}
-	if ((int)(player->angle * RAD_TO_DEG) == 90 || (int)(player->angle * RAD_TO_DEG) == (180 + 90) || data->ray->hit_point_v->y < 0 \
+	if ((int)(new_angle * RAD_TO_DEG) == 90 || (int)(new_angle * RAD_TO_DEG) == (180 + 90) || data->ray->hit_point_v->y < 0 \
 				|| (int)(data->ray->hit_point_v->y) > data->map->ymap * data->map->off_map)
 		rep = data->map->ymap;
 	while (rep < data->map->ymap)
@@ -182,15 +191,30 @@ void	ft_draw_ray(t_data *data)
 	static t_vertex	horizontal;
 	t_vertex	vertical;
 	t_vertex		to_draw;
+	float	h, v;
+	int	angle, min_angle, max_angle;
+	t_ray*	ray;
+	t_player	*player;
+	ray = data->ray;
+	player = data->player;
 
-	ft_horizontal_check(data);
-	ft_expand_hori(data);
-	ft_vertical_check(data);
-	ft_expand_verti(data);
-
-
-	ft_vect_draw(data->player->point, data->ray->hit_point_h, 0x00FF00, data);
-	ft_vect_draw(data->player->point, data->ray->hit_point_v, 0xFF0000, data);
+	min_angle = -60;
+	min_angle = 60;
+	while (min_angle)
+	{
+		ray->angle = player->angle - (min_angle * DEG_TO_RAD);
+		ft_horizontal_check(data);
+		ft_expand_hori(data);
+		ft_vertical_check(data);
+		ft_expand_verti(data);
+		h = ft_hypo_calc(data->player->point, data->ray->hit_point_h)[0];
+		v = ft_hypo_calc(data->player->point, data->ray->hit_point_v)[0];
+		if (v < h)
+			ft_vect_draw(data->player->point, data->ray->hit_point_v, 0xFF0000, data);
+		else
+			ft_vect_draw(data->player->point, data->ray->hit_point_h, 0x00FF00, data);
+		min_angle++;
+	}
 }
 
 void	ft_draw_init(t_data *data)
