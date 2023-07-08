@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/08 15:26:13 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/08 19:57:36 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	ft_player_init(t_data *data)
 	player->width = 5;
 	player->xpos = j * map->off_map + map->off_map / 2;
 	player->ypos = i * map->off_map + map->off_map / 2;
+	player->point->x = player->xpos;
+	player->point->y = player->ypos;
 	player->angle = 30 * 0.0174533;
 	player->xrot = cos(player->angle);
 	player->yrot = sin(player->angle);
@@ -220,14 +222,35 @@ static void	ft_angle_adjust(t_data *data, float angle)
 		ray->angle += 2 * PI;
 }
 
+void	ft_draw_line_mid(t_data *data, t_vertex *ray, float dist, float angle)
+{
+	float lineheight = (500 / dist);
+	printf("height : %f\n", dist);
+	t_vertex *point1, *point2;
+
+	point1 = malloc(sizeof(t_vertex));
+	point2 = malloc(sizeof(t_vertex));
+
+	point1->x = (WIDTH / 2) + (angle * (WIDTH / 120));
+	point1->y = (HEIGHT / 2) - (lineheight /2);
+
+	point2->x = (WIDTH / 2) + (angle * (WIDTH / 120));
+	point2->y =  (HEIGHT / 2)  + (lineheight /2);
+	printf("height : %f\n", point1->y);
+	printf("height : %f\n", point2->y);
+	//line x = 0, line y = Height / 2  - dist /2;
+	// line x = 0, line y = HEGIHT / 2 + dist /2;
+	ft_vect_draw(point1, point2, 0xFF0000, data);
+}
+
 void	ft_draw_ray(t_data *data)
 {
-	static t_vertex	horizontal;
+	t_vertex	horizontal;
 	t_vertex	vertical;
-	t_vertex		to_draw;
+	t_vertex	*nearest;
 	t_ray*	ray;
 	t_player	*player;
-	float	h, v;
+	float	h, v, dist;
 	int	angle, min_angle, max_angle;
 
 	ray = data->ray;
@@ -244,9 +267,19 @@ void	ft_draw_ray(t_data *data)
 		h = ft_hypo_calc(data->player->point, data->ray->hit_point_h)[0];
 		v = ft_hypo_calc(data->player->point, data->ray->hit_point_v)[0];
 		if (v < h)
-			ft_vect_draw(data->player->point, data->ray->hit_point_v, 0xFF0000, data);
+		{
+			dist = v;
+			nearest = data->ray->hit_point_v;
+		}
 		else
-			ft_vect_draw(data->player->point, data->ray->hit_point_h, 0x00FF00, data);
+		{
+			dist = h;
+			nearest = data->ray->hit_point_h;
+		}
+		printf("dist %f\n", dist);
+		if (dist)
+			ft_draw_line_mid(data , nearest, dist , (float)min_angle);
+		ft_vect_draw(data->player->point, nearest, 0x00FF00, data);
 		min_angle++;
 	}
 }
