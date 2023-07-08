@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:11 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/02 17:47:47 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/08 14:31:59 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	main(int ac, char **av)
 	char *map = ft_strjoin("map/", av[1]);
 	map = ft_strjoin(map, ".cub");
 	ft_parse(map, &data);
-	data.map->off_map = 64;
+	data.map->off_map = 20;
 	for (int i = 0; i < data.map->ymap; i++)
 	{
 		for (int j = 0; j < data.map->xmap; j++)

@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/07 20:00:16 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/08 14:31:20 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_vertical_check(t_data *data)
 	if (((ray->angle < 2*PI) && (ray->angle > 3 * PI / 2)) \
 			|| ((ray->angle > 0) && (ray->angle < PI / 2)))
 	{
-		b->x = (int)(player->xpos / data->map->off_map) * data->map->off_map + data->map->off_map - 0.00001;
+		b->x = (int)(player->xpos / data->map->off_map) * data->map->off_map + data->map->off_map + 0.00001;
 		b->y = player->ypos - ((player->xpos - b->x) * tan(ray->angle));
 	}
 	if (((ray->angle <  3 * PI / 2) && (ray->angle > PI)) \
@@ -96,7 +96,7 @@ t_vertex	*ft_horizontal_check(t_data *data)
 	}
 	if (ray->angle < PI)
 	{
-		b->y = (int)(player->ypos / data->map->off_map) * data->map->off_map + data->map->off_map - 0.00001;
+		b->y = (int)(player->ypos / data->map->off_map) * data->map->off_map + data->map->off_map + 0.00001;
 		b->x = player->xpos - (player->ypos - b->y) / tan(ray->angle);
 	}
 	// if (ray->angle == PI || ray->angle == 0)
@@ -182,27 +182,37 @@ void	ft_expand_verti(t_data *data)
 	}
 }
 
+static void	ft_angle_adjust(t_data *data, float angle)
+{
+	t_ray	*ray;
+	t_player	*player;
+
+	ray = data->ray;
+	player = data->player;
+	ray->angle = player->angle - (angle * DEG_TO_RAD);
+	if (ray->angle > 2 * PI)
+		ray->angle -= 2 * PI;
+	if (ray->angle < 0)
+		ray->angle += 2 * PI;
+}
+
 void	ft_draw_ray(t_data *data)
 {
 	static t_vertex	horizontal;
 	t_vertex	vertical;
 	t_vertex		to_draw;
-	float	h, v;
-	int	angle, min_angle, max_angle;
 	t_ray*	ray;
 	t_player	*player;
+	float	h, v;
+	int	angle, min_angle, max_angle;
+
 	ray = data->ray;
 	player = data->player;
-
 	min_angle = -30;
 	max_angle = 30;
 	while (min_angle < max_angle)
 	{
-		ray->angle = player->angle - (min_angle * DEG_TO_RAD);
-		if (ray->angle > 2 * PI)
-			ray->angle -= 2 * PI;
-		if (ray->angle < 0)
-			ray->angle += 2 * PI;
+		ft_angle_adjust(data, min_angle);
 		ft_horizontal_check(data);
 		ft_expand_hori(data);
 		ft_vertical_check(data);
