@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:25:19 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/01 00:25:34 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/08 14:57:15 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	ft_map_component_find(char c)
 {
 	if (c == '1')
 		return (1);
+	if (c == 'N')
+		return (8);
 	if (c == ' ' || c == '\n')
 		return (2);
 	return (0);
@@ -100,12 +102,10 @@ int	*ft_map_fill(int fd, int width, int height)
 			}
 			else
 				map[k * width + j] = ft_map_component_find(*line);
-			// printf("%d", map[i]);
 			i++;
 			j++;
 			line++;
 		}
-		// printf("\n");
 		k++;
 	}
 	return (map);
@@ -133,14 +133,14 @@ void	ft_wall_check(int *dim, int * map)
 				exit(1);
 			}
 			if ((map[i * dim[0] + j] == 0) &&
-			(map[(i-1)* dim[0] + j] == 2 ||
-			map[(i-1)* dim[0] + j - 1 ] == 2 ||
-			map[(i-1)* dim[0] + j + 1 ] == 2 ||
-			map[(i+1) *dim[0] + j] == 2 ||
-			map[(i+1) *dim[0] + j - 1] == 2 ||
-			map[(i+1) *dim[0] + j + 1] == 2 ||
-			map[i * dim[0] + j + 1]== 2 ||
-			map[i * dim[0] + j - 1] == 2))
+					(map[(i-1)* dim[0] + j] == 2 ||
+					map[(i-1)* dim[0] + j - 1 ] == 2 ||
+					map[(i-1)* dim[0] + j + 1 ] == 2 ||
+					map[(i+1) *dim[0] + j] == 2 ||
+					map[(i+1) *dim[0] + j - 1] == 2 ||
+					map[(i+1) *dim[0] + j + 1] == 2 ||
+					map[i * dim[0] + j + 1]== 2 ||
+					map[i * dim[0] + j - 1] == 2))
 			{
 				ft_putendl_fd("Fucked", 2);
 				exit(1);

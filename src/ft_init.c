@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/08 14:31:20 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/08 15:26:13 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,36 @@ static void	ft_init_img(t_data *data)
 	img->addr = mlx_get_data_addr(img->img_ptr, &img->bpp, &img->line, &img->endian);
 }
 
-static void	ft_player_init(t_player *player)
+void	ft_player_init(t_data *data)
 {
+	t_player	*player;
+	t_map		*map;
+
+	player = data->player;
+	map = data->map;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (i < map->ymap)
+	{
+		j = 0;
+		while (j < map->xmap)
+		{
+			if (map->map_compo[i * map->xmap + j] == 8)
+				break;
+			j++;
+		}
+		if (map->map_compo[i * map->xmap + j] == 8)
+			break;
+		i++;
+	}
+	printf("%d\n", i);
 	player->height = 5;
 	player->width = 5;
-	player->xpos = 70;
-	player->ypos = 70;
+	player->xpos = j * map->off_map + map->off_map / 2;
+	player->ypos = i * map->off_map + map->off_map / 2;
 	player->angle = 30 * 0.0174533;
 	player->xrot = cos(player->angle);
 	player->yrot = sin(player->angle);
@@ -36,7 +60,7 @@ void	ft_init(t_data *data)
 	data->mlx = mlx_init();
 	data->win = mlx_new_window(data->mlx,WIDTH, HEIGHT, "ZEB!");
 	ft_init_img(data);
-	ft_player_init(data->player);
+	ft_player_init(data);
 }
 void	ft_draw_direction(t_data *data)
 {
@@ -208,8 +232,8 @@ void	ft_draw_ray(t_data *data)
 
 	ray = data->ray;
 	player = data->player;
-	min_angle = -30;
-	max_angle = 30;
+	min_angle = -60;
+	max_angle = 60;
 	while (min_angle < max_angle)
 	{
 		ft_angle_adjust(data, min_angle);

@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:24:33 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/07 18:58:32 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/08 14:42:55 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ float	*ft_hypo_calc(t_vertex *a, t_vertex *b)
 	x = (b->x - a->x);
 	y = (a->y - b->y);
 	hypo = malloc(sizeof(float) * 2);
-	hypo[0] = sqrt(pow(x, 2) + pow(y, 2));
+	hypo[0] = sqrt((x * x) + (y * y));
 	hypo[1] = asin(y / hypo[0]);
 	return (hypo);
 }

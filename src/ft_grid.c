@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_grid.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:07 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/01 12:23:22 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/08 14:59:47 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void ft_draw_map(t_data *data)
 		{
 			if (data->map->map_compo[(i * data->map->xmap) + j] == 1)
 				color = WALL;
-			else if (data->map->map_compo[(i * data->map->xmap) + j] == 0)
+			else if (data->map->map_compo[(i * data->map->xmap) + j] == 0 || data->map->map_compo[(i * data->map->xmap) + j] == 8)
 				color = FLOOR;
 			else
 				color = 0;
