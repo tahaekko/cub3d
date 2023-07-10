@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/08 19:57:36 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/10 01:54:42 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,11 @@ void	ft_vertical_check(t_data *data)
 		b->x = (int)(player->xpos / data->map->off_map) * data->map->off_map - 0.00001 ;
 		b->y = player->ypos - ((player->xpos - b->x) * tan(ray->angle));
 	}
-	if ((int)(ray->angle * RAD_TO_DEG) == 90 || (int)(ray->angle * RAD_TO_DEG) == 180 + 90)
-	{
-		b->x = player->point->x;
-		b->y = player->point->y;
-	}
+	// if ((int)(ray->angle * RAD_TO_DEG) == 90 || (int)(ray->angle * RAD_TO_DEG) == 180 + 90)
+	// {
+	// 	b->x = player->point->x;
+	// 	b->y = player->point->y;
+	// }
 }
 
 t_vertex	*ft_horizontal_check(t_data *data)
@@ -126,11 +126,11 @@ t_vertex	*ft_horizontal_check(t_data *data)
 		b->x = player->xpos - (player->ypos - b->y) / tan(ray->angle);
 	}
 	// if (ray->angle == PI || ray->angle == 0)
-	if ((int)(ray->angle * RAD_TO_DEG) == 360 || (int)(ray->angle * RAD_TO_DEG) == 180)
-	{
-		b->x = player->point->x;
-		b->y = player->point->y;
-	}
+	// if ((int)(ray->angle * RAD_TO_DEG) == 360 || (int)(ray->angle * RAD_TO_DEG) == 180)
+	// {
+	// 	b->x = player->point->x;
+	// 	b->y = player->point->y;
+	// }
 	return (b);
 }
 
@@ -232,10 +232,13 @@ void	ft_draw_line_mid(t_data *data, t_vertex *ray, float dist, float angle)
 	point2 = malloc(sizeof(t_vertex));
 
 	point1->x = (WIDTH / 2) + (angle * (WIDTH / 120));
-	point1->y = (HEIGHT / 2) - (lineheight /2);
-
+	point1->y = (HEIGHT / 2) - (lineheight / 2);
+	if (point1->y <= 0)
+		point1->y = 0;
 	point2->x = (WIDTH / 2) + (angle * (WIDTH / 120));
-	point2->y =  (HEIGHT / 2)  + (lineheight /2);
+	point2->y =  (HEIGHT / 2)  + (lineheight / 2);
+	if (point2->y >= HEIGHT)
+		point2->y = HEIGHT;
 	printf("height : %f\n", point1->y);
 	printf("height : %f\n", point2->y);
 	//line x = 0, line y = Height / 2  - dist /2;
@@ -251,7 +254,7 @@ void	ft_draw_ray(t_data *data)
 	t_ray*	ray;
 	t_player	*player;
 	float	h, v, dist;
-	int	angle, min_angle, max_angle;
+	float	angle, min_angle, max_angle;
 
 	ray = data->ray;
 	player = data->player;
@@ -280,7 +283,7 @@ void	ft_draw_ray(t_data *data)
 		if (dist)
 			ft_draw_line_mid(data , nearest, dist , (float)min_angle);
 		ft_vect_draw(data->player->point, nearest, 0x00FF00, data);
-		min_angle++;
+		min_angle+=0.1;
 	}
 }
 
