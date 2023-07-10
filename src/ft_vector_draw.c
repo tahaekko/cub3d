@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:24:33 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/08 18:48:21 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/10 02:20:31 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ float	*ft_hypo_calc(t_vertex *a, t_vertex *b)
 	float	*hypo;
 	float	x;
 	float	y;
-	float	deg;
+	// float	deg;
 
 	x = (b->x - a->x);
 	y = (a->y - b->y);
@@ -41,8 +41,8 @@ void	ft_vect_draw(t_vertex *a, t_vertex *b, int color, t_data *data)
 	float	i;
 	float	*hypo;
 	float	*hypo_max;
-	float	deg;
-	float	adj;
+	// float	deg;
+	// float	adj;
 	float	x;
 	float	y;
 
@@ -53,7 +53,8 @@ void	ft_vect_draw(t_vertex *a, t_vertex *b, int color, t_data *data)
 	y = 0;
 	while (i < hypo[0])
 	{
-		// if ((int)a->x + x > 0 && (int)a->x + x < data->map->xmap * data->map->off_map &&  (int)a->y - y > 0 && (int)a->y - y < data->map->ymap * data->map->off_map)
+		if (((int)a->x + x > 0 && (int)a->x + x < WIDTH &&  (int)a->y - y > 0 && (int)a->y - y < HEIGHT) \
+			||(int)b->x + x > 0 && (int)b->x + x < WIDTH &&  (int)b->y - y > 0 && (int)b->y - y < HEIGHT)
 		ft_put_pix((int)a->x + x, (int)a->y - y, color, data);
 		if (b->x < a->x)
 			x -= cos(hypo[1]);

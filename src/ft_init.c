@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/10 01:54:42 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/10 02:19:26 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,9 +279,13 @@ void	ft_draw_ray(t_data *data)
 			dist = h;
 			nearest = data->ray->hit_point_h;
 		}
-		printf("dist %f\n", dist);
-		if (dist)
-			ft_draw_line_mid(data , nearest, dist , (float)min_angle);
+		// printf("dist %f\n", dist);
+		// if (dist)
+		// 	ft_draw_line_mid(data , nearest, dist , (float)min_angle);
+		printf("%f\n", nearest->y);
+		// printf("%f\n", nearest->y);
+		// printf("%f\n", nearest->y);
+
 		ft_vect_draw(data->player->point, nearest, 0x00FF00, data);
 		min_angle+=0.1;
 	}
