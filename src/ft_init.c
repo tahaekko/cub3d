@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/08 14:31:20 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/11 04:14:19 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,8 @@ void	ft_expand_verti(t_data *data)
 	{
 		x = (int)(data->ray->hit_point_v->x / data->map->off_map);
 		y = (int)(data->ray->hit_point_v->y / data->map->off_map);
+		if (y * data->map->xmap + x > data->map->xmap * data->map->ymap)
+			return ;
 		if (data->map->map_compo[y * data->map->xmap + x] == 1)
 			break;
 		data->ray->hit_point_v->x += xo;
@@ -204,12 +206,12 @@ void	ft_draw_ray(t_data *data)
 	t_ray*	ray;
 	t_player	*player;
 	float	h, v;
-	int	angle, min_angle, max_angle;
+	float	angle, min_angle, max_angle;
 
 	ray = data->ray;
 	player = data->player;
-	min_angle = -30;
-	max_angle = 30;
+	min_angle = -60;
+	max_angle = 60;
 	while (min_angle < max_angle)
 	{
 		ft_angle_adjust(data, min_angle);
@@ -223,7 +225,7 @@ void	ft_draw_ray(t_data *data)
 			ft_vect_draw(data->player->point, data->ray->hit_point_v, 0xFF0000, data);
 		else
 			ft_vect_draw(data->player->point, data->ray->hit_point_h, 0x00FF00, data);
-		min_angle++;
+		min_angle+=0.1;
 	}
 }
 
