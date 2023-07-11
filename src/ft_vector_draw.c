@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:24:33 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/11 04:06:38 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/11 04:17:05 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	ft_vect_draw(t_vertex *a, t_vertex *b, int color, t_data *data)
 	y = 0;
 	while (i < hypo[0])
 	{
-		if ((int)a->x + x > 0 && (int)a->x + x < data->map->xmap * data->map->off_map &&  (int)a->y - y > 0 && (int)a->y + y < data->map->ymap * data->map->off_map)
-			ft_put_pix((int)a->x + x, (int)a->y - y, color, data);
+		if ((int)a->x + x > 0 && (int)a->x + x < WIDTH &&  (int)a->y + y > 0 && (int)a->y + y < HEIGHT)
+			ft_put_pix((int)a->x + x, (int)a->y + y, color, data);
 		if (b->x < a->x)
 			x -= cos(hypo[1]);
 		else

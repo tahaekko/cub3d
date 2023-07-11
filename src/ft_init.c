@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/10 02:46:14 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/11 04:17:35 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,8 @@ void	ft_expand_verti(t_data *data)
 	{
 		x = (int)(data->ray->hit_point_v->x / data->map->off_map);
 		y = (int)(data->ray->hit_point_v->y / data->map->off_map);
+		if (y * data->map->xmap + x > data->map->xmap * data->map->ymap)
+			return ;
 		if (data->map->map_compo[y * data->map->xmap + x] == 1)
 			break;
 		data->ray->hit_point_v->x += xo;
@@ -248,7 +250,7 @@ void	ft_draw_line_mid(t_data *data, t_vertex *ray, float dist, float angle)
 	// printf("w : %f\n", point2->x);
 	//line x = 0, line y = Height / 2  - dist /2;
 	// line x = 0, line y = HEGIHT / 2 + dist /2;
-	// ft_vect_draw(point1, point2, 0xFF0000, data);
+	ft_vect_draw(point1, point2, 0xFF0000, data);
 }
 
 void	ft_draw_ray(t_data *data)
@@ -258,6 +260,7 @@ void	ft_draw_ray(t_data *data)
 	t_vertex	*nearest;
 	t_ray*	ray;
 	t_player	*player;
+
 	float	h, v, dist;
 	float	angle, min_angle, max_angle;
 
