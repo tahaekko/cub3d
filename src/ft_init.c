@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/12 03:27:38 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/12 06:24:26 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,8 @@ void	ft_expand_hori(t_data *data)
 	int	rep = 0;
 	int	x;
 	int	y;
-	float	xo;
-	float	yo;
+	double	xo;
+	double	yo;
 
 	player = data->player;
 	ray = data->ray;
@@ -167,19 +167,21 @@ void	ft_expand_verti(t_data *data)
 	int	x;
 	int	y;
 	int rep;
-	float	xo, yo;
+	double	xo, yo;
 
 	rep = 0;
+	xo = 0;
+	yo = 0;
 	if (((ray->angle < 2*PI) && (ray->angle > 3 * PI / 2)) \
 			|| ((ray->angle > 0) && (ray->angle < PI / 2)))
 	{
-		xo = data->map->off_map;
+		xo = (double) data->map->off_map;
 		yo = xo * tan(ray->angle);
 	}
 	if (((ray->angle <  3 * PI / 2) && (ray->angle > PI)) \
 			|| ((ray->angle < PI) && (ray->angle > PI / 2)))
 	{
-		xo = -data->map->off_map;
+		xo = (double)(-data->map->off_map);
 		yo = xo * tan(ray->angle);
 	}
 	if ((int)(ray->angle * RAD_TO_DEG) == 90 || (int)(ray->angle * RAD_TO_DEG) == (180 + 90) || data->ray->hit_point_v->y < 0 \
@@ -187,8 +189,8 @@ void	ft_expand_verti(t_data *data)
 		rep = data->map->ymap;
 	while (rep < data->map->ymap)
 	{
-		x = (int)(data->ray->hit_point_v->x / data->map->off_map);
-		y = (int)(data->ray->hit_point_v->y / data->map->off_map);
+		x = (int)(data->ray->hit_point_v->x /(double)data->map->off_map);
+		y = (int)(data->ray->hit_point_v->y / (double)data->map->off_map);
 		if (y * data->map->xmap + x > data->map->xmap * data->map->ymap)
 			return ;
 		if (data->map->map_compo[y * data->map->xmap + x] == 1)
@@ -199,7 +201,7 @@ void	ft_expand_verti(t_data *data)
 	}
 }
 
-static void	ft_angle_adjust(float *angle)
+static void	ft_angle_adjust(double *angle)
 {
 	if (*angle > 2 * PI)
 		*angle -= 2 * PI;
@@ -207,27 +209,42 @@ static void	ft_angle_adjust(float *angle)
 		*angle += 2 * PI;
 }
 
-void	ft_draw_line_mid(t_data *data, float dist, int nray)
+void	ft_draw_line_mid(t_data *data, double dist, int nray)
 {
 	t_vertex p1, p2;
-	t_ray	*ray;
-	static int i;
-	float	line;
+	t_player	*player = data->player;
+	t_ray	*ray = data->ray;
+	double	line;
+	double	i ;
+
+	/*this*/
+	double newray, nnray;
+
+	newray = player->angle - ray->angle;
+	ft_angle_adjust(&newray);
+	nnray = player->angle - newray;
+	ft_angle_adjust(&nnray);
+
+	// printf("Diff Rad after addjust %f\n", newray);
+	// printf("that might be the real Diff Rad after addjust %f\n", nnray);
+
+	/*this*/
 
 	ray = data->ray;
-	p1.x = (float)WIDTH/2 + (float)((ray->angle - data->player->angle) * (float)RAD_TO_DEG);
-	printf("%f\n", p1.x);
-	ft_put_pix(p1.x, HEIGHT/2, 0xFF0000, data);
-	// p2.x = ((ray->angle + 60) / 120) * WIDTH;
-	// line = (HEIGHT / (dist * cos(data->player->angle - data->ray->angle))) * 5;
-	// p1.y = HEIGHT/2 - line;
-	// p2.y = HEIGHT/2;
-	// ft_vect_draw(&p1, &p2, 0xFF0000, data);
+	i = (double)(nray);
+	p1.x = (double)i / (double)60 * (double)WIDTH;
+	p2.x = (double)i / (double)60 * (double)WIDTH;
+
+	double l_h = (double)500 / (double)(dist * cos(newray));
+	p1.y = (double)HEIGHT / (double)2 + l_h / (double)2;
+	p2.y =  (double)HEIGHT / (double)2 - l_h / (double)2;;
+	// ft_put_pix((int)p1.x, HEIGHT/2, 0xFF0000, data);
+	ft_vect_draw(&p1, &p2, 0xFF0000, data);
 }
 
-void	ft_debug(t_player *player, t_ray *ray, int nray, float dist, t_data *data)
+void	ft_debug(t_player *player, t_ray *ray, int nray, double dist, t_data *data)
 {
-	float newray, nnray;
+	double newray, nnray;
 
 	newray = player->angle - ray->angle;
 		ft_angle_adjust(&newray);
@@ -237,11 +254,11 @@ void	ft_debug(t_player *player, t_ray *ray, int nray, float dist, t_data *data)
 		printf("dist : %f\n", dist);
 		if (nray != 30)
 		{
-			float maxdeg = ((float)60 * (float)DEG_TO_RAD);
+			double maxdeg = ((double)60 * (double)DEG_TO_RAD);
 			ft_angle_adjust(&maxdeg);
-			float newnew = data->ray->angle / maxdeg;
+			double newnew = data->ray->angle / maxdeg;
 			ft_angle_adjust(&newnew);
-			printf("x to draw %f\n", (float)nray / (float)60 * ((float)(WIDTH)));
+			printf("x to draw %f\n", (double)nray / (double)60 * ((double)(WIDTH)));
 			printf("dist of other %f \n", dist * cos(nnray));
 		}
 
@@ -263,8 +280,7 @@ void	ft_draw_ray(t_data *data)
 	t_vertex	*nearest;
 	t_ray*	ray;
 	t_player	*player;
-	float	h, v, dist;
-
+	double	h, v, dist;
 	ray = data->ray;
 	player = data->player;
 	ray->angle = player->angle - (30 * DEG_TO_RAD);
@@ -272,13 +288,6 @@ void	ft_draw_ray(t_data *data)
 	int	nray=0;
 	while (nray < 60)
 	{
-		if (nray != 30 && nray != 59 && nray != 50)
-		{
-			nray++;
-			ray->angle += DEG_TO_RAD;
-			ft_angle_adjust(&ray->angle);
-			continue;
-		}
 		ft_horizontal_check(data);
 		ft_expand_hori(data);
 		ft_vertical_check(data);
@@ -295,13 +304,11 @@ void	ft_draw_ray(t_data *data)
 			dist = h;
 			nearest = data->ray->hit_point_h;
 		}
-		// if (dist)
-		// {
-		// 	ft_draw_line_mid(data , dist, nray);
-		// }
+		if (dist)
+			ft_draw_line_mid(data , dist, nray);
 			// printf("");
 		ft_vect_draw(data->player->point, nearest, 0x00FF00, data);
-		ray->angle += DEG_TO_RAD;
+		ray->angle += (double)DEG_TO_RAD;
 		ft_angle_adjust(&ray->angle);
 		nray++;
 	}

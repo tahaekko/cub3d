@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:38 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/07 19:50:26 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/12 05:59:38 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@
 extern int g_var;
 typedef struct s_vertex
 {
-	float	x;
-	float	y;
+	double	x;
+	double	y;
 }	t_vertex;
 
 typedef struct s_vect
@@ -76,12 +76,12 @@ typedef struct s_player
 {
 	int		height;
 	int		width;
-	float	xpos;
+	double	xpos;
 	t_vertex	point[1];
-	float	ypos;
-	float	angle;
-	float	xrot;
-	float	yrot;
+	double	ypos;
+	double	angle;
+	double	xrot;
+	double	yrot;
 }	t_player;
 
 typedef struct s_img{
@@ -104,7 +104,7 @@ typedef	struct s_ray
 {
 	t_vertex	hit_point_h[1];
 	t_vertex	hit_point_v[1];
-	float		angle;
+	double		angle;
 }	t_ray;
 typedef struct s_data
 {
@@ -127,6 +127,6 @@ void	ft_draw_init(t_data *data);
 void	ft_parse(char *filename, t_data *data);
 void	ft_vect_draw(t_vertex *a, t_vertex *b, int color, t_data *data);
 void	ft_coordinante(t_data *data);
-float	*ft_hypo_calc(t_vertex *a, t_vertex *b);
+double	*ft_hypo_calc(t_vertex *a, t_vertex *b);
 
 #endif
