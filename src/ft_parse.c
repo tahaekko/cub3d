@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:25:19 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/08 14:57:15 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/13 04:12:53 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ int	*ft_get_dim(int fd)
 		if (!ft_valid((const char *)line))
 			return (free(line), exit(1), NULL);
 		width = ft_max(width, ft_strlen(line));
-		free(line);
+		// free(line);
 	}
-	if (tmp)
-		free(tmp);
+	// if (tmp)
+	// 	free(tmp);
 	dimension[0] = width;
 	dimension[1] = height;
 	return (dimension);

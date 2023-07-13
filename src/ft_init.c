@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/12 06:24:26 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/13 04:44:46 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,11 +187,11 @@ void	ft_expand_verti(t_data *data)
 	if ((int)(ray->angle * RAD_TO_DEG) == 90 || (int)(ray->angle * RAD_TO_DEG) == (180 + 90) || data->ray->hit_point_v->y < 0 \
 				|| (int)(data->ray->hit_point_v->y) > data->map->ymap * data->map->off_map)
 		rep = data->map->ymap;
-	while (rep < data->map->ymap)
+	while (rep < data->map->xmap)
 	{
 		x = (int)(data->ray->hit_point_v->x /(double)data->map->off_map);
 		y = (int)(data->ray->hit_point_v->y / (double)data->map->off_map);
-		if (y * data->map->xmap + x > data->map->xmap * data->map->ymap)
+		if ((y * data->map->xmap + x > data->map->xmap * data->map->ymap) || (y * data->map->xmap + x < 0))
 			return ;
 		if (data->map->map_compo[y * data->map->xmap + x] == 1)
 			break;
@@ -215,7 +215,7 @@ void	ft_draw_line_mid(t_data *data, double dist, int nray)
 	t_player	*player = data->player;
 	t_ray	*ray = data->ray;
 	double	line;
-	double	i ;
+	double	i,j;
 
 	/*this*/
 	double newray, nnray;
@@ -225,21 +225,20 @@ void	ft_draw_line_mid(t_data *data, double dist, int nray)
 	nnray = player->angle - newray;
 	ft_angle_adjust(&nnray);
 
-	// printf("Diff Rad after addjust %f\n", newray);
-	// printf("that might be the real Diff Rad after addjust %f\n", nnray);
-
-	/*this*/
-
 	ray = data->ray;
 	i = (double)(nray);
-	p1.x = (double)i / (double)60 * (double)WIDTH;
-	p2.x = (double)i / (double)60 * (double)WIDTH;
+	j = i + 1;
+	double l_h = (double)HEIGHT / (double)(dist * cos(newray)) * 5;
 
-	double l_h = (double)500 / (double)(dist * cos(newray));
 	p1.y = (double)HEIGHT / (double)2 + l_h / (double)2;
-	p2.y =  (double)HEIGHT / (double)2 - l_h / (double)2;;
-	// ft_put_pix((int)p1.x, HEIGHT/2, 0xFF0000, data);
-	ft_vect_draw(&p1, &p2, 0xFF0000, data);
+	p2.y =  (double)HEIGHT / (double)2 - l_h / (double)2;
+	while ( i < j){
+		p1.x = (double)i / (double)60 * (double)WIDTH;
+		p2.x = (double)i / (double)60 * (double)WIDTH;
+		ft_vect_draw(&p1, &p2, 0xFF0000, data);
+		i+=0.01;
+	}
+
 }
 
 void	ft_debug(t_player *player, t_ray *ray, int nray, double dist, t_data *data)

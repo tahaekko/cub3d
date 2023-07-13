@@ -3,15 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: taha <taha@student.42.fr>                  +#+  +:+       +#+         #
+#    By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/21 17:25:24 by msamhaou          #+#    #+#              #
-#    Updated: 2023/07/01 12:37:01 by taha             ###   ########.fr        #
+#    Updated: 2023/07/13 04:39:04 by msamhaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = Cub3D
 CC = cc
+CFLAGS =
 HEADER = cub3d.h
 
 ifeq ($(shell uname), Linux)
@@ -54,19 +55,19 @@ FOBJ = $(addprefix $(OBJ_DIR), $(OBJ))
 all : $(NAME)
 
 $(NAME): $(OBJ_DIR) $(FOBJ) $(LIBFT_OBJ) $(GNL_OBJ)
-	${CC} -o $(NAME) $(FOBJ) $(LIBFT_OBJ) $(GNL_OBJ) $(MLX_LINK) $(MLX_FLAGS)
+	${CC} $(CFLAGS) -o $(NAME) $(FOBJ) $(LIBFT_OBJ) $(GNL_OBJ) $(MLX_LINK) $(MLX_FLAGS)
 
 $(OBJ_DIR) :
 	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)%.o : $(LIBFT_DIR)%.c
-	$(CC) -c $< -o $@ $(MLX_INC) -Iinclude/
+	$(CC) $(CFLAGS) -c $< -o $@ $(MLX_INC) -Iinclude/
 
 $(OBJ_DIR)%.o : $(SRC_DIR)%.c
-	$(CC) -c $< -o $@ $(MLX_INC) -Iinclude/
+	$(CC) $(CFLAGS) -c $< -o $@ $(MLX_INC) -Iinclude/
 
 $(OBJ_DIR)%.o : $(GNL_DIR)%.c
-	$(CC) -c $< -o $@ $(MLX_INC) -Iinclude/
+	$(CC) $(CFLAGS) -c $< -o $@ $(MLX_INC) -Iinclude/
 
 prog : all
 	./$(NAME)
