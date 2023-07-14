@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:38 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/13 01:56:14 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/14 06:33:41 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,6 @@ void	ft_parse(char *filename, t_data *data);
 void	ft_vect_draw(t_vertex *a, t_vertex *b, int color, t_data *data);
 void	ft_coordinante(t_data *data);
 double	*ft_hypo_calc(t_vertex *a, t_vertex *b);
+int	color_code(int r ,int g ,int b);
 
 #endif

@@ -6,13 +6,13 @@
 #    By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/21 17:25:24 by msamhaou          #+#    #+#              #
-#    Updated: 2023/07/13 04:39:04 by msamhaou         ###   ########.fr        #
+#    Updated: 2023/07/14 06:34:39 by msamhaou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = Cub3D
 CC = cc
-CFLAGS =
+CFLAGS = -o3
 HEADER = cub3d.h
 
 ifeq ($(shell uname), Linux)

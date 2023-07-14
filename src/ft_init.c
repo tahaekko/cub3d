@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/14 03:46:43 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/14 06:35:10 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ static void	ft_angle_adjust(double *angle)
 		*angle += 2 * PI;
 }
 
-void	ft_draw_line_mid(t_data *data, double dist, double nray)
+void	ft_draw_line_mid(t_data *data, double dist, double nray, int color)
 {
 	t_vertex p1, p2;
 	t_player	*player = data->player;
@@ -234,7 +234,7 @@ void	ft_draw_line_mid(t_data *data, double dist, double nray)
 	p2.y =  (double)HEIGHT / (double)2 - l_h / (double)2;
 	p1.x = (double)i / (double)60 * (double)WIDTH;
 	p2.x = (double)i / (double)60 * (double)WIDTH;
-	ft_vect_draw(&p1, &p2, 0xFF0000, data);
+	ft_vect_draw(&p1, &p2, color, data);
 
 }
 
@@ -277,11 +277,13 @@ void	ft_draw_ray(t_data *data)
 	t_ray*	ray;
 	t_player	*player;
 	double	h, v, dist;
+	int color;
 	ray = data->ray;
 	player = data->player;
 	ray->angle = player->angle - (30 * DEG_TO_RAD);
 	ft_angle_adjust(&ray->angle);
 	double	nray=0;
+	color = 0;
 	while (nray < (double)60)
 	{
 		ft_horizontal_check(data);
@@ -294,20 +296,21 @@ void	ft_draw_ray(t_data *data)
 		{
 			dist = v;
 			nearest = data->ray->hit_point_v;
+			color = color_code(200,0,50);
 		}
 		else
 		{
 			dist = h;
 			nearest = data->ray->hit_point_h;
+			color = color_code(255, 0, 105);
 		}
 		if (dist)
-			ft_draw_line_mid(data , dist, nray);
+			ft_draw_line_mid(data , dist, nray, color);
 			// printf("");
 		ft_vect_draw(data->player->point, nearest, 0x00FF00, data);
-		ray->angle += ((double)60/(double)WIDTH) * DEG_TO_RAD;
+		ray->angle += 0.01 * DEG_TO_RAD;
 		ft_angle_adjust(&ray->angle);
-		nray+= (double)60/(double)WIDTH;
-		printf("ray : %f\n", ray->angle);
+		nray+= 0.01;
 	}
 }
 
