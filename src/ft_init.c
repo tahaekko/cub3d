@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/13 04:44:46 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/14 03:46:43 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ static void	ft_angle_adjust(double *angle)
 		*angle += 2 * PI;
 }
 
-void	ft_draw_line_mid(t_data *data, double dist, int nray)
+void	ft_draw_line_mid(t_data *data, double dist, double nray)
 {
 	t_vertex p1, p2;
 	t_player	*player = data->player;
@@ -232,12 +232,9 @@ void	ft_draw_line_mid(t_data *data, double dist, int nray)
 
 	p1.y = (double)HEIGHT / (double)2 + l_h / (double)2;
 	p2.y =  (double)HEIGHT / (double)2 - l_h / (double)2;
-	while ( i < j){
-		p1.x = (double)i / (double)60 * (double)WIDTH;
-		p2.x = (double)i / (double)60 * (double)WIDTH;
-		ft_vect_draw(&p1, &p2, 0xFF0000, data);
-		i+=0.01;
-	}
+	p1.x = (double)i / (double)60 * (double)WIDTH;
+	p2.x = (double)i / (double)60 * (double)WIDTH;
+	ft_vect_draw(&p1, &p2, 0xFF0000, data);
 
 }
 
@@ -284,8 +281,8 @@ void	ft_draw_ray(t_data *data)
 	player = data->player;
 	ray->angle = player->angle - (30 * DEG_TO_RAD);
 	ft_angle_adjust(&ray->angle);
-	int	nray=0;
-	while (nray < 60)
+	double	nray=0;
+	while (nray < (double)60)
 	{
 		ft_horizontal_check(data);
 		ft_expand_hori(data);
@@ -307,9 +304,10 @@ void	ft_draw_ray(t_data *data)
 			ft_draw_line_mid(data , dist, nray);
 			// printf("");
 		ft_vect_draw(data->player->point, nearest, 0x00FF00, data);
-		ray->angle += (double)DEG_TO_RAD;
+		ray->angle += ((double)60/(double)WIDTH) * DEG_TO_RAD;
 		ft_angle_adjust(&ray->angle);
-		nray++;
+		nray+= (double)60/(double)WIDTH;
+		printf("ray : %f\n", ray->angle);
 	}
 }
 
