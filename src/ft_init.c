@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/14 06:35:10 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/14 07:13:14 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_player_init(t_data *data)
 	player->ypos = i * map->off_map + map->off_map / 2;
 	player->point->x = player->xpos;
 	player->point->y = player->ypos;
-	player->angle = 30 * 0.0174533;
+	player->angle = (double)((int)(FOV/ 2)) * (double)0.0174533;
 	player->xrot = cos(player->angle);
 	player->yrot = sin(player->angle);
 }
@@ -232,8 +232,8 @@ void	ft_draw_line_mid(t_data *data, double dist, double nray, int color)
 
 	p1.y = (double)HEIGHT / (double)2 + l_h / (double)2;
 	p2.y =  (double)HEIGHT / (double)2 - l_h / (double)2;
-	p1.x = (double)i / (double)60 * (double)WIDTH;
-	p2.x = (double)i / (double)60 * (double)WIDTH;
+	p1.x = (double)i / (double)FOV * (double)WIDTH;
+	p2.x = (double)i / (double)FOV * (double)WIDTH;
 	ft_vect_draw(&p1, &p2, color, data);
 
 }
@@ -250,11 +250,11 @@ void	ft_debug(t_player *player, t_ray *ray, int nray, double dist, t_data *data)
 		printf("dist : %f\n", dist);
 		if (nray != 30)
 		{
-			double maxdeg = ((double)60 * (double)DEG_TO_RAD);
+			double maxdeg = ((double)FOV * (double)DEG_TO_RAD);
 			ft_angle_adjust(&maxdeg);
 			double newnew = data->ray->angle / maxdeg;
 			ft_angle_adjust(&newnew);
-			printf("x to draw %f\n", (double)nray / (double)60 * ((double)(WIDTH)));
+			printf("x to draw %f\n", (double)nray / (double)FOV * ((double)(WIDTH)));
 			printf("dist of other %f \n", dist * cos(nnray));
 		}
 
@@ -280,11 +280,11 @@ void	ft_draw_ray(t_data *data)
 	int color;
 	ray = data->ray;
 	player = data->player;
-	ray->angle = player->angle - (30 * DEG_TO_RAD);
+	ray->angle = player->angle - ((double)((int)(FOV / 2))  * DEG_TO_RAD);
 	ft_angle_adjust(&ray->angle);
 	double	nray=0;
 	color = 0;
-	while (nray < (double)60)
+	while (nray < (double)FOV)
 	{
 		ft_horizontal_check(data);
 		ft_expand_hori(data);
@@ -307,11 +307,24 @@ void	ft_draw_ray(t_data *data)
 		if (dist)
 			ft_draw_line_mid(data , dist, nray, color);
 			// printf("");
-		ft_vect_draw(data->player->point, nearest, 0x00FF00, data);
+		// ft_vect_draw(data->player->point, nearest, 0x00FF00, data);
 		ray->angle += 0.01 * DEG_TO_RAD;
 		ft_angle_adjust(&ray->angle);
 		nray+= 0.01;
 	}
+}
+
+void	ft_paint(t_data *data, int color)
+{
+	for (int i = 0; i < WIDTH; i++)
+		for (int j = 0; j < HEIGHT/2; j++)
+			ft_put_pix(i, j, color, data);
+}
+void	ft_paint_floor(t_data *data, int color)
+{
+	for (int i = 0; i < WIDTH; i++)
+		for (int j = HEIGHT/2; j < HEIGHT; j++)
+			ft_put_pix(i, j, color, data);
 }
 
 void	ft_draw_init(t_data *data)
@@ -320,10 +333,12 @@ void	ft_draw_init(t_data *data)
 
 	player = data->player;
 	// ft_coordinante(data);
-	ft_background(data);
-	ft_draw_map(data);
-	ft_draw_square(data, player->xpos, player->ypos, 0x0ef0e5, player->height);
-	ft_draw_direction(data);
+	// ft_background(data);
+	ft_paint(data, color_code(47,239,240));
+	ft_paint_floor(data, color_code(116,83,65));
+	// ft_draw_map(data);
+	// ft_draw_square(data, player->xpos, player->ypos, 0x0ef0e5, player->height);
+	// ft_draw_direction(data);
 	ft_draw_ray(data);
 	ft_put_img(data);
 }
