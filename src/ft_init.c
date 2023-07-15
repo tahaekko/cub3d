@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/14 07:13:14 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/15 07:10:51 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,9 +308,9 @@ void	ft_draw_ray(t_data *data)
 			ft_draw_line_mid(data , dist, nray, color);
 			// printf("");
 		// ft_vect_draw(data->player->point, nearest, 0x00FF00, data);
-		ray->angle += 0.01 * DEG_TO_RAD;
+		ray->angle += ((double)60/ (double)WIDTH) * (double)DEG_TO_RAD;
 		ft_angle_adjust(&ray->angle);
-		nray+= 0.01;
+		nray+= ((double)60/ (double)WIDTH) - 0.01;
 	}
 }
 
