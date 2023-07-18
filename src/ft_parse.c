@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:25:19 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/13 04:12:53 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/18 10:01:15 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,92 @@ void	ft_wall_check(int *dim, int * map)
 	ft_putendl_fd("Valid !", 1);
 }
 
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	char	*ps1;
+	char	*ps2;
+
+	ps1 = (char *)s1;
+	ps2 = (char *)s2;
+	while (*ps1 || *ps2)
+		if (*ps1 != *ps2)
+			return (*ps1 - *ps2);
+	return (0);
+}
+
+void	ft_get_xpm_files(t_data *data, int fd)
+{
+	char *line;
+	t_file	*file;
+
+	file = data->file;
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		line = get_next_line(fd);
+		if (!ft_strncmp(line, "NO ", ft_strlen("NO ")))
+			file->north = ft_substr(line, (unsigned int)ft_strlen("NO "), ft_strlen(line));
+		else if (!ft_strncmp(line, "SO ", ft_strlen("SO ")))
+			file->south = ft_substr(line, (unsigned int)ft_strlen("SO "), ft_strlen(line));
+		else if (!ft_strncmp(line, "WE ", ft_strlen("WE ")))
+			file->west = ft_substr(line, (unsigned int)ft_strlen("WE "), ft_strlen(line));
+		else if (!ft_strncmp(line, "EA ", ft_strlen("EA ")))
+			file->east = ft_substr(line, (unsigned int)ft_strlen("EA "), ft_strlen(line));
+		free(line);
+		i++;
+	}
+}
+void	ft_free_strings(char **s)
+{
+	while (*s)
+		free(*(s++));
+	free(s);
+}
+
+int	ft_get_color(char *str, char *s)
+{
+	char	*raw;
+	char	**split;
+	int		res;
+
+	raw = ft_substr(str, (unsigned int)ft_strlen(s), ft_strlen(str));
+	printf("%s\n", raw);
+	split = ft_split(raw, ',');
+	res = color_code(ft_atoi(split[0]), ft_atoi(split[1]), ft_atoi(split[3]));
+	ft_free_strings(split);
+	return (res);
+}
+
+void	ft_get_colors(t_data *data, int fd)
+{
+	int	i;
+	char	*line;
+	t_color	*color;
+
+	color = data->colors;
+	i = 0;
+	while (i < 6)
+	{
+		line = get_next_line(fd);
+		// printf("%s\n", line);
+		// if (line[0] == '\n')
+		// {
+		// 	continue;
+		// 	free(line);
+		// }
+		printf("%d\n", i);
+		if (!ft_strncmp(line, "F ", ft_strlen("F ")))
+			color->floor = ft_get_color(line, "F ");
+		else if (!ft_strncmp(line, "C ", ft_strlen("C ")))
+			color->floor = ft_get_color(line, "C ");
+		// free(line);
+		i++;
+	}
+	printf("HERE\n");
+}
+
 void	ft_parse(char *filename, t_data *data)
 {
 	int	fd;
@@ -164,6 +250,9 @@ void	ft_parse(char *filename, t_data *data)
 		perror("");
 		exit(1);
 	}
+	ft_get_xpm_files(data, fd);
+	ft_get_colors(data, fd);
+	printf("%d\n", data->colors->ciel);
 	dimensions = ft_get_dim(fd);
 	close(fd);
 	fd = open(filename, O_RDONLY);

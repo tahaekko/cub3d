@@ -6,23 +6,18 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:11 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/14 06:50:03 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/18 04:39:21 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cub3d.h"
 
-int g_var;
 
 void	ft_data_change(int key, t_data *data)
 {
 	t_player *player;
 
 	player = data->player;
-	if (key == KEY_UP)
-		g_var++;
-	if (key == KEY_DN)
-		g_var--;
 	if (key == KEY_D)
 		player->xpos++;
 	if (key == KEY_A)
@@ -82,17 +77,10 @@ void	ft_coordinante(t_data *data)
 int	main(int ac, char **av)
 {
 	t_data data;
-	g_var = 0;
 	char *map = ft_strjoin("map/", av[1]);
 	map = ft_strjoin(map, ".cub");
 	ft_parse(map, &data);
 	data.map->off_map = 20;
-	for (int i = 0; i < data.map->ymap; i++)
-	{
-		for (int j = 0; j < data.map->xmap; j++)
-			printf("%d", data.map->map_compo[i * data.map->xmap + j]);
-		printf("\n");
-	}
 	ft_init(&data);
 	ft_draw_init(&data);
 	// ft_coordinante(&data);

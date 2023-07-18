@@ -1,3 +1,11 @@
+NO ./textures/deepslate_coal_ore.xpm
+SO ./textures/deepslate_copper_ore.xpm
+WE ./textures/deepslate_diamond_ore.xpm
+EA ./textures/deepslate_emerald_ore.xpm
+
+F 220,100,0
+C 225,30,0
+
    111111111
    100001111
    10N001111

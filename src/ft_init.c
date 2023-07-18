@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/15 07:10:51 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/18 09:46:17 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,52 @@ void	ft_player_init(t_data *data)
 	player->yrot = sin(player->angle);
 }
 
+t_texture	**ft_textures_alloc(t_data *data)
+{
+	t_texture	**textures;
+	int			i;
+
+	textures = malloc(sizeof(t_texture *) * (5));
+	i=0;
+	while (i < 5)
+	{
+		textures[i] = malloc(sizeof(t_texture));
+		textures[i++]->texture = malloc(sizeof(t_img));
+	}
+	textures[i] = NULL;
+	return (textures);
+}
+
+void	ft_texture(t_data *data)
+{
+	t_img	*img;
+
+	img = data->texture->texture;
+	// img->img_ptr = mlx_xpm_file_to_image(data->mlx, );
+}
+
+// void	ft_set_textures(t_texture **textures)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (textures[i])
+// 		ft_texture(textures[i]);
+// }
+
+// void	ft_texture_init(t_data *data)
+// {
+// 	data->texture = ft_textures_alloc(data);
+// 	// ft_set_textures(data);
+// }
+
 void	ft_init(t_data *data)
 {
 	data->mlx = mlx_init();
 	data->win = mlx_new_window(data->mlx,WIDTH, HEIGHT, "ZEB!");
 	ft_init_img(data);
 	ft_player_init(data);
+	// ft_texture_init(data);
 }
 void	ft_draw_direction(t_data *data)
 {
@@ -282,7 +322,7 @@ void	ft_draw_ray(t_data *data)
 	player = data->player;
 	ray->angle = player->angle - ((double)((int)(FOV / 2))  * DEG_TO_RAD);
 	ft_angle_adjust(&ray->angle);
-	double	nray=0;
+	double	nray=-0.00001;
 	color = 0;
 	while (nray < (double)FOV)
 	{
@@ -310,7 +350,7 @@ void	ft_draw_ray(t_data *data)
 		// ft_vect_draw(data->player->point, nearest, 0x00FF00, data);
 		ray->angle += ((double)60/ (double)WIDTH) * (double)DEG_TO_RAD;
 		ft_angle_adjust(&ray->angle);
-		nray+= ((double)60/ (double)WIDTH) - 0.01;
+		nray+= ((double)60/ (double)WIDTH);
 	}
 }
 
@@ -334,8 +374,8 @@ void	ft_draw_init(t_data *data)
 	player = data->player;
 	// ft_coordinante(data);
 	// ft_background(data);
-	ft_paint(data, color_code(47,239,240));
-	ft_paint_floor(data, color_code(116,83,65));
+	ft_paint(data, data->colors->ciel);
+	ft_paint_floor(data, data->colors->floor);
 	// ft_draw_map(data);
 	// ft_draw_square(data, player->xpos, player->ypos, 0x0ef0e5, player->height);
 	// ft_draw_direction(data);

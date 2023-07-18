@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:38 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/14 07:10:44 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/18 08:50:50 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,19 @@
 
 #endif
 
-extern int g_var;
+typedef struct s_color
+{
+	int	floor;
+	int	ciel;
+}	t_color;
+
+typedef struct s_file
+{
+	char	*north;
+	char	*west;
+	char	*east;
+	char	*south;
+}	t_file;
 typedef struct s_vertex
 {
 	double	x;
@@ -93,6 +105,13 @@ typedef struct s_img{
 	int		endian;
 }	t_img;
 
+typedef struct s_texture
+{
+	int		w;
+	int		h;
+	t_img	*texture;
+}	t_texture;
+
 typedef struct s_map
 {
 	int	xmap;
@@ -107,6 +126,7 @@ typedef	struct s_ray
 	t_vertex	hit_point_v[1];
 	double		angle;
 }	t_ray;
+
 typedef struct s_data
 {
 	void		*mlx;
@@ -115,6 +135,9 @@ typedef struct s_data
 	t_map		map[1];
 	t_player	player[1];
 	t_ray		ray[1];
+	t_file			file[1];
+	t_color			colors[1];
+	t_texture		*texture;
 }	t_data;
 
 
