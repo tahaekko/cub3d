@@ -6,7 +6,7 @@
 /*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:25:19 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/18 10:01:15 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/18 10:51:43 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,10 @@ int	*ft_map_fill(int fd, int width, int height)
 	while (k < height)
 	{
 		line = get_next_line(fd);
+		while (line[0] != '1')
+		{
+			line = get_next_line(fd);
+		}
 		j = 0;
 		while (j < width)
 		{
@@ -129,7 +133,9 @@ void	ft_wall_check(int *dim, int * map)
 		{
 			if (i == 0 && map[i * dim[0] + j] == 0)
 			{
+				printf("here1\n");
 				ft_putendl_fd("Fucked", 2);
+				printf("%d\n", i * dim[0] + j);
 				exit(1);
 			}
 			if ((map[i * dim[0] + j] == 0) &&
@@ -142,7 +148,9 @@ void	ft_wall_check(int *dim, int * map)
 					map[i * dim[0] + j + 1]== 2 ||
 					map[i * dim[0] + j - 1] == 2))
 			{
+				printf("here2\n");
 				ft_putendl_fd("Fucked", 2);
+				printf("%d\n", i * dim[0] + j);
 				exit(1);
 			}
 			j++;
@@ -193,19 +201,17 @@ void	ft_free_strings(char **s)
 {
 	while (*s)
 		free(*(s++));
-	free(s);
 }
 
-int	ft_get_color(char *str, char *s)
+int	ft_set_color(char *str, char *s)
 {
 	char	*raw;
 	char	**split;
 	int		res;
 
 	raw = ft_substr(str, (unsigned int)ft_strlen(s), ft_strlen(str));
-	printf("%s\n", raw);
 	split = ft_split(raw, ',');
-	res = color_code(ft_atoi(split[0]), ft_atoi(split[1]), ft_atoi(split[3]));
+	res = color_code(ft_atoi(split[0]), ft_atoi(split[1]), ft_atoi(split[2]));
 	ft_free_strings(split);
 	return (res);
 }
@@ -218,24 +224,23 @@ void	ft_get_colors(t_data *data, int fd)
 
 	color = data->colors;
 	i = 0;
-	while (i < 6)
+	while (i < 2)
 	{
 		line = get_next_line(fd);
-		// printf("%s\n", line);
-		// if (line[0] == '\n')
-		// {
-		// 	continue;
-		// 	free(line);
-		// }
-		printf("%d\n", i);
+		if (line[0] == '\n')
+		{
+			continue;
+			free(line);
+		}
 		if (!ft_strncmp(line, "F ", ft_strlen("F ")))
-			color->floor = ft_get_color(line, "F ");
+			color->floor = ft_set_color(line, "F ");
 		else if (!ft_strncmp(line, "C ", ft_strlen("C ")))
-			color->floor = ft_get_color(line, "C ");
-		// free(line);
+			color->ciel=  ft_set_color(line, "C ");
+		free(line);
 		i++;
 	}
-	printf("HERE\n");
+	line = get_next_line(fd);
+	free(line);
 }
 
 void	ft_parse(char *filename, t_data *data)
@@ -257,6 +262,12 @@ void	ft_parse(char *filename, t_data *data)
 	close(fd);
 	fd = open(filename, O_RDONLY);
 	map = ft_map_fill(fd, dimensions[0], dimensions[1]);
+	for (int i = 0; i < dimensions[1]; i++)
+	{
+		for (int j = 0; j < dimensions[0]; j++)
+			printf("%d", map[i * dimensions[0] + j]);
+		printf("\n");
+	}
 	data->map->map_compo = map;
 	data->map->xmap = dimensions[0];
 	data->map->ymap = dimensions[1];
