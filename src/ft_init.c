@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/19 13:59:30 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/20 05:22:29 by msamhaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,27 +73,34 @@ t_texture	**ft_textures_alloc(t_data *data)
 	return (textures);
 }
 
-// void	ft_texture(t_data *data)
-// {
-// 	t_img	*img;
+void	ft_set_texture_img(t_data *data, t_texture *texture, char *file_name, int i)
+{
+	void	*pointer;
+	t_img	*img;
 
-// 	img = data->texture->texture_img;
-// 	// img->img_ptr = mlx_xpm_file_to_image(data->mlx, );
-// }
+	pointer = mlx_xpm_file_to_image(data->mlx, file_name, &texture->w, &texture->h);
+	img = texture->texture_img;
+	texture->texture_img->addr = mlx_get_data_addr(pointer, &img->bpp, &img->line, &img->endian);
+	free(pointer);
+}
 
-// void	ft_set_textures(t_texture **textures)
-// {
-// 	int	i;
+void	ft_texture_set(t_texture **textures, t_data *data)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (textures[i])
-// 		ft_texture(textures[i]);
-// }
-
+	i = 0;
+	while (textures[i])
+	{
+		ft_set_texture_img(data, textures[i], data->files_arr[i], i);
+		i++;
+	}
+}
 void	ft_texture_init(t_data *data)
 {
-	data->texture = ft_textures_alloc(data);
-	// ft_set_textures(data);
+	t_texture	**textures;
+
+	textures = ft_textures_alloc(data);
+	ft_texture_set(textures, data);
 }
 
 void	ft_init(t_data *data)
