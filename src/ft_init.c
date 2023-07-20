@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/18 09:46:17 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/19 13:59:30 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,22 @@ t_texture	**ft_textures_alloc(t_data *data)
 
 	textures = malloc(sizeof(t_texture *) * (5));
 	i=0;
-	while (i < 5)
+	while (data->files_arr[i])
 	{
 		textures[i] = malloc(sizeof(t_texture));
-		textures[i++]->texture = malloc(sizeof(t_img));
+		textures[i++]->texture_img = malloc(sizeof(t_img));
 	}
 	textures[i] = NULL;
 	return (textures);
 }
 
-void	ft_texture(t_data *data)
-{
-	t_img	*img;
+// void	ft_texture(t_data *data)
+// {
+// 	t_img	*img;
 
-	img = data->texture->texture;
-	// img->img_ptr = mlx_xpm_file_to_image(data->mlx, );
-}
+// 	img = data->texture->texture_img;
+// 	// img->img_ptr = mlx_xpm_file_to_image(data->mlx, );
+// }
 
 // void	ft_set_textures(t_texture **textures)
 // {
@@ -90,11 +90,11 @@ void	ft_texture(t_data *data)
 // 		ft_texture(textures[i]);
 // }
 
-// void	ft_texture_init(t_data *data)
-// {
-// 	data->texture = ft_textures_alloc(data);
-// 	// ft_set_textures(data);
-// }
+void	ft_texture_init(t_data *data)
+{
+	data->texture = ft_textures_alloc(data);
+	// ft_set_textures(data);
+}
 
 void	ft_init(t_data *data)
 {
@@ -102,7 +102,7 @@ void	ft_init(t_data *data)
 	data->win = mlx_new_window(data->mlx,WIDTH, HEIGHT, "ZEB!");
 	ft_init_img(data);
 	ft_player_init(data);
-	// ft_texture_init(data);
+	ft_texture_init(data);
 }
 void	ft_draw_direction(t_data *data)
 {

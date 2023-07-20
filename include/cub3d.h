@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:38 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/18 08:50:50 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/19 11:02:36 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ typedef struct s_texture
 {
 	int		w;
 	int		h;
-	t_img	*texture;
+	t_img	*texture_img;
 }	t_texture;
 
 typedef struct s_map
@@ -137,7 +137,8 @@ typedef struct s_data
 	t_ray		ray[1];
 	t_file			file[1];
 	t_color			colors[1];
-	t_texture		*texture;
+	t_texture		**texture;
+	char			**files_arr;
 }	t_data;
 
 

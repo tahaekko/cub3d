@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 16:25:19 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/18 10:51:43 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/19 08:52:38 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,9 +176,8 @@ int	ft_strcmp(const char *s1, const char *s2)
 void	ft_get_xpm_files(t_data *data, int fd)
 {
 	char *line;
-	t_file	*file;
 
-	file = data->file;
+	data->files_arr = malloc(sizeof(char *) * (5));
 	int	i;
 
 	i = 0;
@@ -186,16 +185,17 @@ void	ft_get_xpm_files(t_data *data, int fd)
 	{
 		line = get_next_line(fd);
 		if (!ft_strncmp(line, "NO ", ft_strlen("NO ")))
-			file->north = ft_substr(line, (unsigned int)ft_strlen("NO "), ft_strlen(line));
+			data->files_arr[0] = ft_substr(line, (unsigned int)ft_strlen("NO "), ft_strlen(line) - ft_strlen("NO ") - 1);
 		else if (!ft_strncmp(line, "SO ", ft_strlen("SO ")))
-			file->south = ft_substr(line, (unsigned int)ft_strlen("SO "), ft_strlen(line));
+			data->files_arr[1] = ft_substr(line, (unsigned int)ft_strlen("SO "), ft_strlen(line) - ft_strlen("NO ") - 1);
 		else if (!ft_strncmp(line, "WE ", ft_strlen("WE ")))
-			file->west = ft_substr(line, (unsigned int)ft_strlen("WE "), ft_strlen(line));
+			data->files_arr[2] = ft_substr(line, (unsigned int)ft_strlen("WE "), ft_strlen(line) - ft_strlen("NO ") - 1);
 		else if (!ft_strncmp(line, "EA ", ft_strlen("EA ")))
-			file->east = ft_substr(line, (unsigned int)ft_strlen("EA "), ft_strlen(line));
+			data->files_arr[3] = ft_substr(line, (unsigned int)ft_strlen("EA "), ft_strlen(line) - ft_strlen("NO ") - 1);
 		free(line);
 		i++;
 	}
+	data->files_arr[i] = NULL;
 }
 void	ft_free_strings(char **s)
 {
@@ -243,6 +243,25 @@ void	ft_get_colors(t_data *data, int fd)
 	free(line);
 }
 
+void	ft_xpm_file_check(t_data *data)
+{
+	int	i;
+	int	fd;
+
+	i = 0;
+	while (data->files_arr[i])
+	{
+		printf("%s\n", data->files_arr[i]);
+		fd = open(data->files_arr[i], O_RDONLY);
+		if (fd < 0){
+			perror("");
+			exit(1);
+		}
+		close(fd);
+		i++;
+	}
+}
+
 void	ft_parse(char *filename, t_data *data)
 {
 	int	fd;
@@ -256,6 +275,7 @@ void	ft_parse(char *filename, t_data *data)
 		exit(1);
 	}
 	ft_get_xpm_files(data, fd);
+	ft_xpm_file_check(data);
 	ft_get_colors(data, fd);
 	printf("%d\n", data->colors->ciel);
 	dimensions = ft_get_dim(fd);
