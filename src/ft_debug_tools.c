@@ -1,14 +1,14 @@
 #include "cub3d.h"
 
-typedef struct s_elem
+static int	ft_elem_exist(t_elem *list, int elem)
 {
-	int				content;
-	struct s_elem	*next;
-}	t_elem;
-
-static int	ft_check_exist(int *arr, int elem)
-{
-	// while ()
+	while (list)
+	{
+		if (list->content == elem)
+			return (1);
+		list = list->next;
+	}
+	return (0);
 }
 
 t_elem	*new_elem(int content)
@@ -21,6 +21,9 @@ t_elem	*new_elem(int content)
 
 void	elem_add(t_elem **node, t_elem *back)
 {
+	t_elem	*head = *node;
+	// printf("%p\n", *node);
+	// printf("%p\n", *node);
 	if (!*node)
 		*node = back;
 	else
@@ -28,15 +31,19 @@ void	elem_add(t_elem **node, t_elem *back)
 		while ((*node)->next)
 			*node = (*node)->next;
 		(*node)->next = back;
+		*node = head;
 	}
 }
 
-void	ft_single_color(char *addr)
+t_elem	*ft_single_color(int *addr)
 {
 	t_elem	*elem = NULL;
 
-	for (int i = 0; addr[i]; i+=4)
+	for (int i = 0; addr[i]; i++)
 	{
-		elem_add(&elem, new_elem(*(int *)addr));
+		// printf("int %x\n", addr[i]);
+		if ((!elem || !ft_elem_exist(elem, addr[i])))
+			elem_add(&elem, new_elem(addr[i]));
 	}
+	return (elem);
 }

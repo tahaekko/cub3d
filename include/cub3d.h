@@ -6,7 +6,7 @@
 /*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:38 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/19 11:02:36 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/21 17:15:13 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,4 +155,14 @@ void	ft_coordinante(t_data *data);
 double	*ft_hypo_calc(t_vertex *a, t_vertex *b);
 int	color_code(int r ,int g ,int b);
 
+
+/*****DEBUG******/
+typedef struct s_elem
+{
+	int				content;
+	struct s_elem	*next;
+}	t_elem;
+
+t_elem	*ft_single_color(int *addr);
+/****************/
 #endif

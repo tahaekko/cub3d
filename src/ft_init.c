@@ -6,7 +6,7 @@
 /*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/21 12:42:06 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/21 17:37:02 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,14 @@ void	ft_texture_set(t_texture **textures, t_data *data)
 void	ft_texture_init(t_data *data)
 {
 	t_texture	**textures;
+	t_elem		*elem;
 
 	textures = ft_textures_alloc(data);
 	ft_texture_set(textures, data);
 	data->texture = textures;
+	elem = ft_single_color((int *)data->texture[1]->texture_img->addr);
+	for(; elem;elem=elem->next)
+		printf("%X\n", elem->content);
 }
 
 void	ft_init(t_data *data)
