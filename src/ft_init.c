@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/20 05:22:29 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/21 12:42:06 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	ft_texture_init(t_data *data)
 
 	textures = ft_textures_alloc(data);
 	ft_texture_set(textures, data);
+	data->texture = textures;
 }
 
 void	ft_init(t_data *data)
@@ -265,7 +266,7 @@ void	ft_draw_line_mid(t_data *data, double dist, double nray, int color)
 	double	i,j;
 
 	/*this*/
-	double newray, nnray;
+	double newray, nnray, xtextute, ytexture;
 
 	newray = player->angle - ray->angle;
 	ft_angle_adjust(&newray);
@@ -276,12 +277,16 @@ void	ft_draw_line_mid(t_data *data, double dist, double nray, int color)
 	i = (double)(nray);
 	j = i + 1;
 	double l_h = (double)HEIGHT / (double)(dist * cos(newray)) * 5;
-
-	p1.y = (double)HEIGHT / (double)2 + l_h / (double)2;
-	p2.y =  (double)HEIGHT / (double)2 - l_h / (double)2;
+	double height = 0;
+	xtextute = (double)((int)ray->hit_point_h->x % GRID) * (double)data->texture[0]->w / (double)GRID;
 	p1.x = (double)i / (double)FOV * (double)WIDTH;
 	p2.x = (double)i / (double)FOV * (double)WIDTH;
-	ft_vect_draw(&p1, &p2, color, data);
+	while (height < l_h){
+		ytexture = height * (double)data->texture[0]->h / l_h;
+		p1.y = (double)HEIGHT / (double)2 + height / (double)2;
+		p2.y =  (double)HEIGHT / (double)2 - height++ / (double)2;
+	}
+	ft_vect_draw(&p1, &p2, (int)data->texture[1]->texture_img->addr[6], data);
 
 }
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+         #
+#    By: taha <taha@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/21 17:25:24 by msamhaou          #+#    #+#              #
-#    Updated: 2023/07/18 09:00:37 by msamhaou         ###   ########.fr        #
+#    Updated: 2023/07/21 12:39:07 by taha             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ LIBFT_OBJ = $(addprefix $(OBJ_DIR), $(LIBFT_OBJ_FILE))
 
 #*****************SRC*****************
 SRC_DIR = src/
-SRC = ft_init.c  main.c libx_tools.c ft_grid.c ft_parse.c ft_vector_draw.c
+SRC = ft_debug_tools.c ft_init.c  main.c libx_tools.c ft_grid.c ft_parse.c ft_vector_draw.c
 FSRC = $(addprefix $(SRC_DIR), $(SRC))
 
 OBJ = $(SRC:.c=.o)
