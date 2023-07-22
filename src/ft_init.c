@@ -6,7 +6,7 @@
 /*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/22 18:57:16 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/22 19:05:23 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -347,13 +347,13 @@ void	ft_draw_ray(t_data *data)
 		v = ft_hypo_calc(data->player->point, data->ray->hit_point_v)[0];
 		if (v < h)
 		{
-			dist = v;
+			dist = sqrt(v);
 			nearest = data->ray->hit_point_v;
 			color = color_code(200,0,50);
 		}
 		else
 		{
-			dist = h;
+			dist = sqrt(h);
 			nearest = data->ray->hit_point_h;
 			color = color_code(255, 0, 105);
 		}

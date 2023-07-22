@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_vector_draw.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:24:33 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/12 05:59:38 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/22 19:05:59 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ double	*ft_hypo_calc(t_vertex *a, t_vertex *b)
 	x = (b->x - a->x);
 	y = (a->y - b->y);
 	hypo = malloc(sizeof(double) * 2);
-	hypo[0] = sqrt((x * x) + (y * y));
+	hypo[0] = ((x * x) + (y * y));
 	hypo[1] = asin(y / hypo[0]);
 	return (hypo);
 }
