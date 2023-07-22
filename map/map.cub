@@ -1,10 +1,10 @@
-NO ./textures/deepslate_coal_ore.xpm
+NO ./textures/AnyConv.com__Bricks_22-512x512.xpm
 SO ./textures/deepslate_copper_ore.xpm
 WE ./textures/deepslate_diamond_ore.xpm
 EA ./textures/deepslate_emerald_ore.xpm
 
-F 220,100,0
-C 225,30,0
+F 0,0,0
+C 0,0,0
 
 11111111111
 10000000001

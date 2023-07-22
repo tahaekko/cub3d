@@ -6,7 +6,7 @@
 /*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/21 17:25:10 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/21 17:37:02 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/22 18:57:16 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,37 +261,33 @@ static void	ft_angle_adjust(double *angle)
 		*angle += 2 * PI;
 }
 
-void	ft_draw_line_mid(t_data *data, double dist, double nray, int color)
+void	ft_draw_line_mid(t_data *data, double dist, int nray, t_vertex *near,int color)
 {
-	t_vertex p1, p2;
-	t_player	*player = data->player;
+	double newray;
+	t_player *player = data->player;
 	t_ray	*ray = data->ray;
-	double	line;
-	double	i,j;
-
-	/*this*/
-	double newray, nnray, xtextute, ytexture;
 
 	newray = player->angle - ray->angle;
 	ft_angle_adjust(&newray);
-	nnray = player->angle - newray;
-	ft_angle_adjust(&nnray);
+	double l_h = (double)HEIGHT / (double)(dist * cos(newray)) * 512;
 
-	ray = data->ray;
-	i = (double)(nray);
-	j = i + 1;
-	double l_h = (double)HEIGHT / (double)(dist * cos(newray)) * 5;
-	double height = 0;
-	xtextute = (double)((int)ray->hit_point_h->x % GRID) * (double)data->texture[0]->w / (double)GRID;
-	p1.x = (double)i / (double)FOV * (double)WIDTH;
-	p2.x = (double)i / (double)FOV * (double)WIDTH;
-	while (height < l_h){
-		ytexture = height * (double)data->texture[0]->h / l_h;
-		p1.y = (double)HEIGHT / (double)2 + height / (double)2;
-		p2.y =  (double)HEIGHT / (double)2 - height++ / (double)2;
+	int	i = HEIGHT/ 2  - ((int)l_h / 2);
+	int	height = 0;
+	int	x,y,step;
+
+	if (near == ray->hit_point_h)
+		x = (((int)near->x % data->map->off_map) * (data->texture[0]->w)) / data->map->off_map;
+	else
+		x = (((int)near->y % data->map->off_map) * (data->texture[0]->w )) / data->map->off_map;
+	step = 0;
+	int	*addr = (int *)data->texture[0]->texture_img->addr;
+	while (i < (HEIGHT/ 2  + ((int)l_h / 2)))
+	{
+		y = (step * data->texture[0]->w) / (int)l_h;
+		ft_put_pix(nray, i, addr[(y * data->texture[0]->w )+ x],data);
+		i++;
+		step++;
 	}
-	ft_vect_draw(&p1, &p2, (int)data->texture[1]->texture_img->addr[6], data);
-
 }
 
 void	ft_debug(t_player *player, t_ray *ray, int nray, double dist, t_data *data)
@@ -339,6 +335,7 @@ void	ft_draw_ray(t_data *data)
 	ray->angle = player->angle - ((double)((int)(FOV / 2))  * DEG_TO_RAD);
 	ft_angle_adjust(&ray->angle);
 	double	nray=-0.00001;
+	int	nnray = 0;
 	color = 0;
 	while (nray < (double)FOV)
 	{
@@ -361,12 +358,11 @@ void	ft_draw_ray(t_data *data)
 			color = color_code(255, 0, 105);
 		}
 		if (dist)
-			ft_draw_line_mid(data , dist, nray, color);
-			// printf("");
-		// ft_vect_draw(data->player->point, nearest, 0x00FF00, data);
+			ft_draw_line_mid(data , dist, nnray, nearest, color);
 		ray->angle += ((double)60/ (double)WIDTH) * (double)DEG_TO_RAD;
 		ft_angle_adjust(&ray->angle);
 		nray+= ((double)60/ (double)WIDTH);
+		nnray++;
 	}
 }
 
@@ -388,7 +384,7 @@ void	ft_draw_init(t_data *data)
 	t_player	*player;
 
 	player = data->player;
-	// ft_coordinante(data);
+	ft_coordinante(data);
 	// ft_background(data);
 	ft_paint(data, data->colors->ciel);
 	ft_paint_floor(data, data->colors->floor);

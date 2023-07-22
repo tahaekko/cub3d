@@ -6,7 +6,7 @@
 /*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:38 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/21 17:15:13 by taha             ###   ########.fr       */
+/*   Updated: 2023/07/22 17:25:22 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <fcntl.h>
 # include "libft.h"
 # include "get_next_line.h"
-# define WIDTH 660
-# define HEIGHT 660
+# define WIDTH 1280
+# define HEIGHT 720
 # define FOV 60
 # define PI 3.141592653589793
 # define RAD_TO_DEG 57.2958

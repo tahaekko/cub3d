@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msamhaou <msamhaou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: taha <taha@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:54:11 by msamhaou          #+#    #+#             */
-/*   Updated: 2023/07/18 04:39:21 by msamhaou         ###   ########.fr       */
+/*   Updated: 2023/07/22 18:56:25 by taha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "cub3d.h"
-
 
 void	ft_data_change(int key, t_data *data)
 {
@@ -80,7 +79,7 @@ int	main(int ac, char **av)
 	char *map = ft_strjoin("map/", av[1]);
 	map = ft_strjoin(map, ".cub");
 	ft_parse(map, &data);
-	data.map->off_map = 20;
+	data.map->off_map = 512;
 	ft_init(&data);
 	ft_draw_init(&data);
 	// ft_coordinante(&data);
